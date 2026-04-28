@@ -1,0 +1,184 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Classic White T-Shirt",
+      "price": 19.99,
+      "image": "images/product-1.jpg",
+      "category": "Clothing",
+      "description": "Comfortable cotton t-shirt for everyday wear.",
+      "rating": 4.5
+    },
+    {
+      "id": 2,
+      "name": "Slim Fit Jeans",
+      "price": 49.99,
+      "image": "images/product-2.jpg",
+      "category": "Clothing",
+      "description": "Stylish slim fit jeans with stretch fabric.",
+      "rating": 4.3
+    },
+    {
+      "id": 3,
+      "name": "Running Sneakers",
+      "price": 69.99,
+      "image": "images/product-3.jpg",
+      "category": "Footwear",
+      "description": "Lightweight sneakers designed for running.",
+      "rating": 4.6
+    },
+    {
+      "id": 4,
+      "name": "Leather Wallet",
+      "price": 29.99,
+      "image": "images/product-4.jpg",
+      "category": "Accessories",
+      "description": "Premium leather wallet with multiple slots.",
+      "rating": 4.4
+    },
+    {
+      "id": 5,
+      "name": "Smart Watch",
+      "price": 129.99,
+      "image": "images/product-5.jpg",
+      "category": "Electronics",
+      "description": "Track your fitness and notifications on the go.",
+      "rating": 4.7
+    },
+    {
+      "id": 6,
+      "name": "Bluetooth Headphones",
+      "price": 59.99,
+      "image": "images/product-6.jpg",
+      "category": "Electronics",
+      "description": "Wireless headphones with noise cancellation.",
+      "rating": 4.5
+    },
+    {
+      "id": 7,
+      "name": "Backpack",
+      "price": 39.99,
+      "image": "images/product-7.jpg",
+      "category": "Bags",
+      "description": "Durable backpack for travel and daily use.",
+      "rating": 4.2
+    },
+    {
+      "id": 8,
+      "name": "Sunglasses",
+      "price": 24.99,
+      "image": "images/product-8.jpg",
+      "category": "Accessories",
+      "description": "UV protection sunglasses with modern style.",
+      "rating": 4.3
+    },
+    {
+      "id": 9,
+      "name": "Baseball Cap",
+      "price": 14.99,
+      "image": "images/product-9.jpg",
+      "category": "Accessories",
+      "description": "Adjustable cap with breathable fabric.",
+      "rating": 4.1
+    },
+    {
+      "id": 10,
+      "name": "Casual Hoodie",
+      "price": 44.99,
+      "image": "images/product-10.jpg",
+      "category": "Clothing",
+      "description": "Warm and cozy hoodie for casual wear.",
+      "rating": 4.6
+    },
+    {
+      "id": 11,
+      "name": "Sports Shorts",
+      "price": 22.99,
+      "image": "images/product-11.jpg",
+      "category": "Clothing",
+      "description": "Breathable shorts perfect for workouts.",
+      "rating": 4.2
+    },
+    {
+      "id": 12,
+      "name": "Digital Camera",
+      "price": 299.99,
+      "image": "images/product-12.jpg",
+      "category": "Electronics",
+      "description": "Capture high-quality photos and videos.",
+      "rating": 4.7
+    },
+    {
+      "id": 13,
+      "name": "Gaming Mouse",
+      "price": 34.99,
+      "image": "images/product-13.jpg",
+      "category": "Electronics",
+      "description": "High precision mouse for gaming.",
+      "rating": 4.5
+    },
+    {
+      "id": 14,
+      "name": "Office Chair",
+      "price": 89.99,
+      "image": "images/product-14.jpg",
+      "category": "Furniture",
+      "description": "Ergonomic chair for comfortable work hours.",
+      "rating": 4.4
+    },
+    {
+      "id": 15,
+      "name": "Water Bottle",
+      "price": 12.99,
+      "image": "images/product-15.jpg",
+      "category": "Lifestyle",
+      "description": "Reusable bottle for daily hydration.",
+      "rating": 4.3
+    },
+    {
+      "id": 16,
+      "name": "Yoga Mat",
+      "price": 25.99,
+      "image": "images/product-16.jpg",
+      "category": "Fitness",
+      "description": "Non-slip mat for yoga and exercise.",
+      "rating": 4.6
+    },
+    {
+      "id": 17,
+      "name": "Desk Lamp",
+      "price": 27.99,
+      "image": "images/product-17.jpg",
+      "category": "Home",
+      "description": "LED lamp with adjustable brightness.",
+      "rating": 4.2
+    },
+    {
+      "id": 18,
+      "name": "Portable Speaker",
+      "price": 49.99,
+      "image": "images/product-18.jpg",
+      "category": "Electronics",
+      "description": "Compact speaker with powerful sound.",
+      "rating": 4.5
+    },
+    {
+      "id": 19,
+      "name": "Travel Suitcase",
+      "price": 99.99,
+      "image": "images/product-19.jpg",
+      "category": "Bags",
+      "description": "Spacious suitcase with durable wheels.",
+      "rating": 4.4
+    },
+    {
+      "id": 20,
+      "name": "Formal Shirt",
+      "price": 39.99,
+      "image": "images/product-20.jpg",
+      "category": "Clothing",
+      "description": "Elegant shirt suitable for formal occasions.",
+      "rating": 4.3
+    }
+  ]
+}
