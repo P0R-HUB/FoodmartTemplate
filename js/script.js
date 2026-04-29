@@ -110,23 +110,102 @@
 
       var $el_product = $(this);
       var quantity = 0;
+      var $quantityInput = $el_product.find('input.quantity-input, input#quantity');
 
       $el_product.find('.quantity-right-plus').click(function(e){
           e.preventDefault();
-          var quantity = parseInt($el_product.find('#quantity').val());
-          $el_product.find('#quantity').val(quantity + 1);
+          var quantity = parseInt($quantityInput.val(), 10) || 0;
+          $quantityInput.val(quantity + 1);
       });
 
       $el_product.find('.quantity-left-minus').click(function(e){
           e.preventDefault();
-          var quantity = parseInt($el_product.find('#quantity').val());
-          if(quantity>0){
-            $el_product.find('#quantity').val(quantity - 1);
+          var quantity = parseInt($quantityInput.val(), 10) || 0;
+          if(quantity > 0){
+            $quantityInput.val(quantity - 1);
           }
       });
 
     });
 
+  }
+
+  // requestProducts() follows the sequence diagram:
+  // 1. requestProducts() starts the data flow
+  // 2. fetchProducts(path) fetches the JSON file from the server
+  // 3. renderUI(products) updates the DOM with the fetched data
+  var PRODUCTS_JSON_PATH = 'JSON/products.json';
+
+  var requestProducts = async function() {
+    try {
+      var productData = await fetchProducts(PRODUCTS_JSON_PATH);
+      renderUI(productData.products || []);
+
+      // After the UI is rendered, initialize carousel and quantity controls
+      initSwiper();
+      initProductQty();
+    } catch (error) {
+      console.error('Failed to load product data:', error);
+    }
+  }
+
+  var fetchProducts = async function(path) {
+    // fetch(path) performs the network request and returns parsed JSON
+    var response = await fetch(path);
+    if (!response.ok) {
+      throw new Error('Unable to fetch product JSON: ' + response.status + ' ' + response.statusText);
+    }
+    return response.json();
+  }
+
+  var renderUI = function(products) {
+    // renderUI converts the fetched product objects into DOM nodes
+    var $wrapper = $('.products-carousel .swiper-wrapper');
+    if ($wrapper.length === 0) {
+      console.warn('No product carousel container found to render UI.');
+      return;
+    }
+
+    $wrapper.empty();
+
+    products.forEach(function(product) {
+      var ratingStars = '';
+      for (var i = 0; i < Math.floor(product.rating || 0); i++) {
+        ratingStars += '<svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg>';
+      }
+
+      var productHtml = '' +
+        '<div class="product-item swiper-slide">' +
+          '<a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>' +
+          '<figure>' +
+            '<a href="index.html" title="' + product.name + '">' +
+              '<img src="' + product.image + '" class="tab-image" alt="' + product.name + '">' +
+            '</a>' +
+          '</figure>' +
+          '<h3>' + product.name + '</h3>' +
+          '<span class="qty">' + (product.category || 'Product') + '</span>' +
+          '<span class="rating">' + ratingStars + ' ' + (product.rating || 0).toFixed(1) + '</span>' +
+          '<span class="price">$' + (product.price || 0).toFixed(2) + '</span>' +
+          '<div class="d-flex align-items-center justify-content-between">' +
+            '<div class="input-group product-qty">' +
+              '<span class="input-group-btn">' +
+                '<button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus">' +
+                  '<svg width="16" height="16"><use xlink:href="#minus"></use></svg>' +
+                '</button>' +
+              '</span>' +
+              '<input type="text" name="quantity" class="form-control input-number quantity-input" value="1">' +
+              '<span class="input-group-btn">' +
+                '<button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus">' +
+                  '<svg width="16" height="16"><use xlink:href="#plus"></use></svg>' +
+                '</button>' +
+              '</span>' +
+            '</div>' +
+            '<a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></iconify-icon></a>' +
+          '</div>' +
+        '</div>';
+
+      $wrapper.append(productHtml);
+    });
   }
 
   // init jarallax parallax
@@ -142,8 +221,7 @@
   $(document).ready(function() {
     
     initPreloader();
-    initSwiper();
-    initProductQty();
+    requestProducts();
     initJarallax();
     initChocolat();
 
