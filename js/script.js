@@ -241,21 +241,29 @@
     initJarallax();
     initChocolat();
 
-    // Handle search form submission
-    $('#search-form').on('submit', function(e) {
+    // Handle search form submission for desktop and offcanvas search
+    $('#search-form, #offcanvas-search-form').on('submit', function(e) {
       e.preventDefault();
-      var searchTerm = $(this).find('input[type="text"]').val().trim();
-      var category = $('.search-bar select').val();
+      var searchTerm = $(this).find('input[name="query"]').val().trim();
+      var category = $('.search-bar select').val() || 'All Categories';
       var filteredProducts = filterProducts(searchTerm, category);
       renderUI(filteredProducts);
       // Re-initialize swiper and qty after filtering
       initSwiper();
       initProductQty();
+
+      var offcanvasEl = document.getElementById('offcanvasSearch');
+      if (offcanvasEl) {
+        var offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasEl);
+        if (offcanvasInstance) {
+          offcanvasInstance.hide();
+        }
+      }
     });
 
     // Handle clear search
     $('#clear-search').on('click', function() {
-      $('.search-bar input[type="text"]').val('');
+      $('#desktop-search-input, #offcanvas-search-input').val('');
       $('.search-bar select').val('All Categories');
       renderUI(allProducts);
       initSwiper();

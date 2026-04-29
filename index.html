@@ -130,8 +130,11 @@
           <h4 class="d-flex justify-content-between align-items-center mb-3">
             <span class="text-primary">Search</span>
           </h4>
-          <form role="search" action="index.html" method="get" class="d-flex mt-3 gap-0">
-            <input class="form-control rounded-start rounded-0 bg-light" type="email" placeholder="What are you looking for?" aria-label="What are you looking for?">
+          <form id="offcanvas-search-form" role="search" action="index.html" method="get" class="d-flex mt-3 gap-0">
+            <div class="flex-grow-1 position-relative">
+              <input id="offcanvas-search-input" name="query" class="form-control rounded-start rounded-0 bg-light" type="search" placeholder="What are you looking for?" aria-label="What are you looking for?" autocomplete="off">
+              <div id="offcanvas-search-suggestions" class="search-suggestions list-group d-none"></div>
+            </div>
             <button class="btn btn-dark rounded-end rounded-0" type="submit">Search</button>
           </form>
         </div>
@@ -167,12 +170,16 @@
                 </select>
               </div>
               <div class="col-11 col-md-7">
+                    <div class="col-11 col-md-7 position-relative">
                 <form id="search-form" class="text-center" action="index.html" method="post">
-                  <input type="text" class="form-control border-0 bg-transparent" placeholder="Search for more than 20,000 products" />
+                  <input id="desktop-search-input" name="query" type="search" class="form-control border-0 bg-transparent" placeholder="Search for more than 20,000 products" aria-label="Search products" autocomplete="off" />
                 </form>
+                <div id="desktop-search-suggestions" class="search-suggestions list-group d-none"></div>
               </div>
-              <div class="col-1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z"/></svg>
+              <div class="col-1 d-flex align-items-center justify-content-center">
+                <button type="submit" form="search-form" class="btn btn-link p-0 text-muted" title="Search">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z"/></svg>
+                </button>
               </div>
               <div class="col-1">
                 <button type="button" class="btn btn-link p-0 text-muted" id="clear-search" title="Clear Search">
@@ -626,7 +633,7 @@
                             <img src="images/thumb-bananas.png"  class="tab-image">
                           </a>
                         </figure>
-                        <h3>Sunstar Fresh Melon Juice</h3>
+                        <h3>Classic White T-Shirt</h3>
                         <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                         <span class="price">$18.00</span>
                         <div class="d-flex align-items-center justify-content-between">
@@ -657,7 +664,7 @@
                             <img src="images/thumb-biscuits.png"  class="tab-image">
                           </a>
                         </figure>
-                        <h3>Sunstar Fresh Melon Juice</h3>
+                        <h3>Slim Fit Jeans</h3>
                         <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                         <span class="price">$18.00</span>
                         <div class="d-flex align-items-center justify-content-between">
@@ -687,7 +694,7 @@
                             <img src="images/thumb-cucumber.png"  class="tab-image">
                           </a>
                         </figure>
-                        <h3>Sunstar Fresh Melon Juice</h3>
+                        <h3>Running Sneakers</h3>
                         <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                         <span class="price">$18.00</span>
                         <div class="d-flex align-items-center justify-content-between">
@@ -717,7 +724,7 @@
                             <img src="images/thumb-milk.png"  class="tab-image">
                           </a>
                         </figure>
-                        <h3>Sunstar Fresh Melon Juice</h3>
+                        <h3>Leather Wallet</h3>
                         <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                         <span class="price">$18.00</span>
                         <div class="d-flex align-items-center justify-content-between">
@@ -747,7 +754,7 @@
                             <img src="images/thumb-bananas.png"  class="tab-image">
                           </a>
                         </figure>
-                        <h3>Sunstar Fresh Melon Juice</h3>
+                        <h3>Smart Watch</h3>
                         <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                         <span class="price">$18.00</span>
                         <div class="d-flex align-items-center justify-content-between">
@@ -777,7 +784,7 @@
                             <img src="images/thumb-biscuits.png"  class="tab-image">
                           </a>
                         </figure>
-                        <h3>Sunstar Fresh Melon Juice</h3>
+                        <h3>Bluetooth Headphones</h3>
                         <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                         <span class="price">$18.00</span>
                         <div class="d-flex align-items-center justify-content-between">
@@ -807,7 +814,7 @@
                             <img src="images/thumb-cucumber.png"  class="tab-image">
                           </a>
                         </figure>
-                        <h3>Sunstar Fresh Melon Juice</h3>
+                        <h3>Backpack</h3>
                         <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                         <span class="price">$18.00</span>
                         <div class="d-flex align-items-center justify-content-between">
@@ -837,7 +844,7 @@
                             <img src="images/thumb-milk.png"  class="tab-image">
                           </a>
                         </figure>
-                        <h3>Sunstar Fresh Melon Juice</h3>
+                        <h3>Sunglasses</h3>
                         <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                         <span class="price">$18.00</span>
                         <div class="d-flex align-items-center justify-content-between">
@@ -867,7 +874,7 @@
                             <img src="images/thumb-bananas.png"  class="tab-image">
                           </a>
                         </figure>
-                        <h3>Sunstar Fresh Melon Juice</h3>
+                        <h3>Baseball Cap</h3>
                         <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                         <span class="price">$18.00</span>
                         <div class="d-flex align-items-center justify-content-between">
@@ -897,7 +904,7 @@
                             <img src="images/thumb-biscuits.png"  class="tab-image">
                           </a>
                         </figure>
-                        <h3>Sunstar Fresh Melon Juice</h3>
+                        <h3>Casual Hoodie</h3>
                         <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                         <span class="price">$18.00</span>
                         <div class="d-flex align-items-center justify-content-between">
@@ -937,7 +944,7 @@
                             <img src="images/thumb-cucumber.png"  class="tab-image">
                           </a>
                         </figure>
-                        <h3>Sunstar Fresh Melon Juice</h3>
+                        <h3>Sports Shorts</h3>
                         <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                         <span class="price">$18.00</span>
                         <div class="d-flex align-items-center justify-content-between">
@@ -968,7 +975,7 @@
                             <img src="images/thumb-milk.png"  class="tab-image">
                           </a>
                         </figure>
-                        <h3>Sunstar Fresh Melon Juice</h3>
+                        <h3>Digital Camera</h3>
                         <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                         <span class="price">$18.00</span>
                         <div class="d-flex align-items-center justify-content-between">
@@ -999,7 +1006,7 @@
                             <img src="images/thumb-orange-juice.png"  class="tab-image">
                           </a>
                         </figure>
-                        <h3>Sunstar Fresh Melon Juice</h3>
+                        <h3>Gaming Mouse</h3>
                         <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                         <span class="price">$18.00</span>
                         <div class="d-flex align-items-center justify-content-between">
@@ -1029,7 +1036,7 @@
                             <img src="images/thumb-raspberries.png"  class="tab-image">
                           </a>
                         </figure>
-                        <h3>Sunstar Fresh Melon Juice</h3>
+                        <h3>Office Chair</h3>
                         <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                         <span class="price">$18.00</span>
                         <div class="d-flex align-items-center justify-content-between">
@@ -1059,7 +1066,7 @@
                             <img src="images/thumb-bananas.png"  class="tab-image">
                           </a>
                         </figure>
-                        <h3>Sunstar Fresh Melon Juice</h3>
+                        <h3>Water Bottle</h3>
                         <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                         <span class="price">$18.00</span>
                         <div class="d-flex align-items-center justify-content-between">
@@ -1089,7 +1096,7 @@
                             <img src="images/thumb-bananas.png"  class="tab-image">
                           </a>
                         </figure>
-                        <h3>Sunstar Fresh Melon Juice</h3>
+                        <h3>Yoga Mat</h3>
                         <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                         <span class="price">$18.00</span>
                         <div class="d-flex align-items-center justify-content-between">
@@ -1127,7 +1134,7 @@
                             <img src="images/thumb-cucumber.png"  class="tab-image">
                           </a>
                         </figure>
-                        <h3>Sunstar Fresh Melon Juice</h3>
+                        <h3>Desk Lamp</h3>
                         <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                         <span class="price">$18.00</span>
                         <div class="d-flex align-items-center justify-content-between">
@@ -1157,7 +1164,7 @@
                             <img src="images/thumb-milk.png"  class="tab-image">
                           </a>
                         </figure>
-                        <h3>Sunstar Fresh Melon Juice</h3>
+                        <h3>Portable Speaker</h3>
                         <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                         <span class="price">$18.00</span>
                         <div class="d-flex align-items-center justify-content-between">
@@ -1187,7 +1194,7 @@
                             <img src="images/thumb-tomatoes.png"  class="tab-image">
                           </a>
                         </figure>
-                        <h3>Sunstar Fresh Melon Juice</h3>
+                        <h3>Travel Suitcase</h3>
                         <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                         <span class="price">$18.00</span>
                         <div class="d-flex align-items-center justify-content-between">
@@ -1217,7 +1224,7 @@
                             <img src="images/thumb-tomatoketchup.png"  class="tab-image">
                           </a>
                         </figure>
-                        <h3>Sunstar Fresh Melon Juice</h3>
+                        <h3>Formal Shirt</h3>
                         <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                         <span class="price">$18.00</span>
                         <div class="d-flex align-items-center justify-content-between">
@@ -1247,7 +1254,7 @@
                             <img src="images/thumb-bananas.png"  class="tab-image">
                           </a>
                         </figure>
-                        <h3>Sunstar Fresh Melon Juice</h3>
+                        <h3>Classic White T-Shirt</h3>
                         <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                         <span class="price">$18.00</span>
                         <div class="d-flex align-items-center justify-content-between">
@@ -1277,7 +1284,7 @@
                             <img src="images/thumb-bananas.png"  class="tab-image">
                           </a>
                         </figure>
-                        <h3>Sunstar Fresh Melon Juice</h3>
+                        <h3>Slim Fit Jeans</h3>
                         <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                         <span class="price">$18.00</span>
                         <div class="d-flex align-items-center justify-content-between">
@@ -1381,7 +1388,7 @@
                       <img src="images/thumb-tomatoes.png"  class="tab-image">
                     </a>
                   </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <h3>Running Sneakers</h3>
                   <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                   <span class="price">$18.00</span>
                   <div class="d-flex align-items-center justify-content-between">
@@ -1410,7 +1417,7 @@
                       <img src="images/thumb-tomatoketchup.png"  class="tab-image">
                     </a>
                   </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <h3>Leather Wallet</h3>
                   <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                   <span class="price">$18.00</span>
                   <div class="d-flex align-items-center justify-content-between">
@@ -1439,7 +1446,7 @@
                       <img src="images/thumb-bananas.png"  class="tab-image">
                     </a>
                   </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <h3>Smart Watch</h3>
                   <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                   <span class="price">$18.00</span>
                   <div class="d-flex align-items-center justify-content-between">
@@ -1468,7 +1475,7 @@
                       <img src="images/thumb-bananas.png"  class="tab-image">
                     </a>
                   </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <h3>Bluetooth Headphones</h3>
                   <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                   <span class="price">$18.00</span>
                   <div class="d-flex align-items-center justify-content-between">
@@ -1495,7 +1502,7 @@
                       <img src="images/thumb-tomatoes.png"  class="tab-image">
                     </a>
                   </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <h3>Backpack</h3>
                   <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                   <span class="price">$18.00</span>
                   <div class="d-flex align-items-center justify-content-between">
@@ -1523,7 +1530,7 @@
                       <img src="images/thumb-tomatoketchup.png"  class="tab-image">
                     </a>
                   </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <h3>Sunglasses</h3>
                   <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                   <span class="price">$18.00</span>
                   <div class="d-flex align-items-center justify-content-between">
@@ -1551,7 +1558,7 @@
                       <img src="images/thumb-bananas.png"  class="tab-image">
                     </a>
                   </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <h3>Baseball Cap</h3>
                   <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                   <span class="price">$18.00</span>
                   <div class="d-flex align-items-center justify-content-between">
@@ -1579,7 +1586,7 @@
                       <img src="images/thumb-bananas.png"  class="tab-image">
                     </a>
                   </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <h3>Casual Hoodie</h3>
                   <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                   <span class="price">$18.00</span>
                   <div class="d-flex align-items-center justify-content-between">
@@ -1685,7 +1692,7 @@
                       <img src="images/thumb-tomatoes.png"  class="tab-image">
                     </a>
                   </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <h3>Sports Shorts</h3>
                   <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                   <span class="price">$18.00</span>
                   <div class="d-flex align-items-center justify-content-between">
@@ -1713,7 +1720,7 @@
                       <img src="images/thumb-tomatoketchup.png"  class="tab-image">
                     </a>
                   </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <h3>Digital Camera</h3>
                   <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                   <span class="price">$18.00</span>
                   <div class="d-flex align-items-center justify-content-between">
@@ -1741,7 +1748,7 @@
                       <img src="images/thumb-bananas.png"  class="tab-image">
                     </a>
                   </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <h3>Gaming Mouse</h3>
                   <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                   <span class="price">$18.00</span>
                   <div class="d-flex align-items-center justify-content-between">
@@ -1769,7 +1776,7 @@
                       <img src="images/thumb-bananas.png"  class="tab-image">
                     </a>
                   </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <h3>Office Chair</h3>
                   <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                   <span class="price">$18.00</span>
                   <div class="d-flex align-items-center justify-content-between">
@@ -1796,7 +1803,7 @@
                       <img src="images/thumb-tomatoes.png"  class="tab-image">
                     </a>
                   </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <h3>Water Bottle</h3>
                   <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                   <span class="price">$18.00</span>
                   <div class="d-flex align-items-center justify-content-between">
@@ -1824,7 +1831,7 @@
                       <img src="images/thumb-tomatoketchup.png"  class="tab-image">
                     </a>
                   </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <h3>Yoga Mat</h3>
                   <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                   <span class="price">$18.00</span>
                   <div class="d-flex align-items-center justify-content-between">
@@ -1852,7 +1859,7 @@
                       <img src="images/thumb-bananas.png"  class="tab-image">
                     </a>
                   </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <h3>Desk Lamp</h3>
                   <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                   <span class="price">$18.00</span>
                   <div class="d-flex align-items-center justify-content-between">
@@ -1880,7 +1887,7 @@
                       <img src="images/thumb-bananas.png"  class="tab-image">
                     </a>
                   </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <h3>Portable Speaker</h3>
                   <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                   <span class="price">$18.00</span>
                   <div class="d-flex align-items-center justify-content-between">
@@ -1943,7 +1950,7 @@
                       <img src="images/thumb-tomatoes.png"  class="tab-image">
                     </a>
                   </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <h3>Travel Suitcase</h3>
                   <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                   <span class="price">$18.00</span>
                   <div class="d-flex align-items-center justify-content-between">
@@ -1971,7 +1978,7 @@
                       <img src="images/thumb-tomatoketchup.png"  class="tab-image">
                     </a>
                   </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <h3>Formal Shirt</h3>
                   <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                   <span class="price">$18.00</span>
                   <div class="d-flex align-items-center justify-content-between">
@@ -1999,7 +2006,7 @@
                       <img src="images/thumb-bananas.png"  class="tab-image">
                     </a>
                   </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <h3>Classic White T-Shirt</h3>
                   <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                   <span class="price">$18.00</span>
                   <div class="d-flex align-items-center justify-content-between">
@@ -2027,7 +2034,7 @@
                       <img src="images/thumb-bananas.png"  class="tab-image">
                     </a>
                   </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <h3>Slim Fit Jeans</h3>
                   <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                   <span class="price">$18.00</span>
                   <div class="d-flex align-items-center justify-content-between">
@@ -2054,7 +2061,7 @@
                       <img src="images/thumb-tomatoes.png"  class="tab-image">
                     </a>
                   </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <h3>Running Sneakers</h3>
                   <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                   <span class="price">$18.00</span>
                   <div class="d-flex align-items-center justify-content-between">
@@ -2082,7 +2089,7 @@
                       <img src="images/thumb-tomatoketchup.png"  class="tab-image">
                     </a>
                   </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <h3>Leather Wallet</h3>
                   <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                   <span class="price">$18.00</span>
                   <div class="d-flex align-items-center justify-content-between">
@@ -2110,7 +2117,7 @@
                       <img src="images/thumb-bananas.png"  class="tab-image">
                     </a>
                   </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <h3>Smart Watch</h3>
                   <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                   <span class="price">$18.00</span>
                   <div class="d-flex align-items-center justify-content-between">
@@ -2138,7 +2145,7 @@
                       <img src="images/thumb-bananas.png"  class="tab-image">
                     </a>
                   </figure>
-                  <h3>Sunstar Fresh Melon Juice</h3>
+                  <h3>Bluetooth Headphones</h3>
                   <span class="qty">1 Unit</span><span class="rating"><svg width="24" height="24" class="text-primary"><use xlink:href="#star-solid"></use></svg> 4.5</span>
                   <span class="price">$18.00</span>
                   <div class="d-flex align-items-center justify-content-between">
