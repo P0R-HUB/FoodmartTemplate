@@ -135,11 +135,13 @@
   // 2. fetchProducts(path) fetches the JSON file from the server
   // 3. renderUI(products) updates the DOM with the fetched data
   var PRODUCTS_JSON_PATH = 'JSON/products.json';
+  var allProducts = []; // Global storage for full product list
 
   var requestProducts = async function() {
     try {
       var productData = await fetchProducts(PRODUCTS_JSON_PATH);
-      renderUI(productData.products || []);
+      allProducts = productData.products || [];
+      renderUI(allProducts);
 
       // After the UI is rendered, initialize carousel and quantity controls
       initSwiper();
@@ -160,6 +162,10 @@
 
   var renderUI = function(products) {
     // renderUI converts the fetched product objects into DOM nodes
+    // If no products provided, use allProducts
+    if (!products) {
+      products = allProducts;
+    }
     var $wrapper = $('.products-carousel .swiper-wrapper');
     if ($wrapper.length === 0) {
       console.warn('No product carousel container found to render UI.');
@@ -208,6 +214,16 @@
     });
   }
 
+  var filterProducts = function(searchTerm, category) {
+    return allProducts.filter(function(product) {
+      var matchesSearch = !searchTerm || 
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        (product.description && product.description.toLowerCase().includes(searchTerm.toLowerCase()));
+      var matchesCategory = category === 'All Categories' || product.category === category;
+      return matchesSearch && matchesCategory;
+    });
+  }
+
   // init jarallax parallax
   var initJarallax = function() {
     jarallax(document.querySelectorAll(".jarallax"));
@@ -224,6 +240,27 @@
     requestProducts();
     initJarallax();
     initChocolat();
+
+    // Handle search form submission
+    $('#search-form').on('submit', function(e) {
+      e.preventDefault();
+      var searchTerm = $(this).find('input[type="text"]').val().trim();
+      var category = $('.search-bar select').val();
+      var filteredProducts = filterProducts(searchTerm, category);
+      renderUI(filteredProducts);
+      // Re-initialize swiper and qty after filtering
+      initSwiper();
+      initProductQty();
+    });
+
+    // Handle clear search
+    $('#clear-search').on('click', function() {
+      $('.search-bar input[type="text"]').val('');
+      $('.search-bar select').val('All Categories');
+      renderUI(allProducts);
+      initSwiper();
+      initProductQty();
+    });
 
   }); // End of a document
 
