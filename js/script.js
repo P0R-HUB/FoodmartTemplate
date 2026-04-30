@@ -194,36 +194,35 @@
 
 
   /* ── Cart (Event Delegation) ── */
-  var cart = {}; // { productId: quantity }
+  var cart = {}; // { key: { qty, name, price } }
 
   var initCart = function() {
 
-    // Event Delegation — ติด listener ครั้งเดียวที่ document
-    // จับทุกปุ่ม .add-to-cart ไม่ว่าจะ render มาตอนไหน
     $(document).on('click', '.add-to-cart', function(e) {
       e.preventDefault();
 
-      // ดึง product ID จากปุ่ม — ถ้าไม่มีให้ค้นหาจากชื่อสินค้า
-      var productId = String($(this).data('id'));
+      var $card = $(this).closest('.product-item');
+
+      // ใช้ data-id ถ้ามี ไม่งั้นใช้ชื่อสินค้าเป็น key
+      var productId = String($(this).attr('data-id') || '');
       if (!productId || productId === 'undefined') {
-        // fallback: หา product จากชื่อใน .product-item ที่ใกล้ที่สุด
-        var productName = $(this).closest('.product-item').find('h3').text().trim();
-        var found = allProducts.find(function(p) {
-          return p.name.toLowerCase() === productName.toLowerCase();
-        });
-        if (!found) return;
-        productId = String(found.id);
+        productId = $card.find('h3').text().trim().toLowerCase().replace(/\s+/g, '-');
       }
+      if (!productId) return;
 
-      // หา quantity จาก input ใน product-qty ที่ใกล้ที่สุด
-      var qty = parseInt($(this).closest('.d-flex').find('.quantity-input, .input-number').val(), 10) || 1;
+      // ดึงชื่อและราคาจาก DOM โดยตรง ไม่ต้องรอ JSON
+      var name  = $card.find('h3').text().trim();
+      var price = parseFloat($card.find('.price').text().replace(/[^0-9.]/g, '')) || 0;
+      var qty   = parseInt($(this).closest('.d-flex').find('.quantity-input, .input-number').val(), 10) || 1;
 
-      // เพิ่มจำนวนเข้า cart
-      cart[productId] = (cart[productId] || 0) + qty;
+      if (cart[productId]) {
+        cart[productId].qty += qty;
+      } else {
+        cart[productId] = { qty: qty, name: name, price: price };
+      }
 
       updateCartUI();
 
-      // Flash ปุ่มให้รู้ว่าเพิ่มแล้ว
       var $btn = $(this);
       $btn.text('✓ Added').addClass('btn-success').removeClass('btn-outline-success');
       setTimeout(function() {
@@ -231,38 +230,35 @@
       }, 1000);
     });
 
-    // ปุ่ม remove ใน cart offcanvas (Event Delegation)
     $(document).on('click', '.cart-remove-btn', function() {
       var id = String($(this).data('id'));
       delete cart[id];
       updateCartUI();
     });
 
-    // ปุ่ม +/- จำนวนใน cart offcanvas
     $(document).on('click', '.cart-qty-btn', function() {
       var id    = String($(this).data('id'));
       var delta = parseInt($(this).data('delta'), 10);
-      cart[id]  = (cart[id] || 0) + delta;
-      if (cart[id] <= 0) delete cart[id];
+      if (cart[id]) {
+        cart[id].qty += delta;
+        if (cart[id].qty <= 0) delete cart[id];
+      }
       updateCartUI();
     });
   };
 
   var updateCartUI = function() {
-    var $list      = $('#cart-item-list');
-    var $emptyMsg  = $('#cart-empty-msg');
-    var $count     = $('#cart-item-count');
-    var $total     = $('#cart-total-price');
+    var $list        = $('#cart-item-list');
+    var $emptyMsg    = $('#cart-empty-msg');
+    var $count       = $('#cart-item-count');
+    var $total       = $('#cart-total-price');
     var $headerTotal = $('.cart-total');
     var $checkoutBtn = $('#checkout-btn');
 
-    var ids = Object.keys(cart);
-
-    // คำนวณยอดรวม
+    var ids        = Object.keys(cart);
     var totalQty   = 0;
     var totalPrice = 0;
 
-    // ล้างรายการเก่า (ยกเว้น empty msg)
     $list.find('.cart-real-item').remove();
 
     if (ids.length === 0) {
@@ -273,24 +269,22 @@
       $checkoutBtn.prop('disabled', false);
 
       ids.forEach(function(id) {
-        var product = allProducts.find(function(p) { return String(p.id) === id; });
-        if (!product) return;
+        var item = cart[id];
+        if (!item) return;
 
-        var qty      = cart[id];
-        var subtotal = product.price * qty;
-        totalQty    += qty;
+        var subtotal = item.price * item.qty;
+        totalQty    += item.qty;
         totalPrice  += subtotal;
 
-        // สร้าง row สินค้าใน cart
         var row = '<li class="cart-real-item list-group-item">' +
           '<div class="d-flex justify-content-between align-items-start gap-2">' +
             '<div class="flex-grow-1">' +
-              '<h6 class="mb-1">' + product.name + '</h6>' +
-              '<small class="text-muted">$' + product.price.toFixed(2) + ' / ชิ้น</small>' +
+              '<h6 class="mb-1">' + item.name + '</h6>' +
+              '<small class="text-muted">$' + item.price.toFixed(2) + ' / ชิ้น</small>' +
             '</div>' +
             '<div class="d-flex align-items-center gap-1">' +
               '<button class="cart-qty-btn btn btn-sm btn-outline-secondary px-2 py-0" data-id="' + id + '" data-delta="-1">−</button>' +
-              '<span class="px-2 fw-bold">' + qty + '</span>' +
+              '<span class="px-2 fw-bold">' + item.qty + '</span>' +
               '<button class="cart-qty-btn btn btn-sm btn-outline-secondary px-2 py-0" data-id="' + id + '" data-delta="1">+</button>' +
             '</div>' +
             '<div class="text-end ms-2">' +
@@ -304,7 +298,6 @@
       });
     }
 
-    // อัปเดต UI ทั้งหมด
     $count.text(totalQty);
     $total.text('$' + totalPrice.toFixed(2));
     $headerTotal.text('$' + totalPrice.toFixed(2));
