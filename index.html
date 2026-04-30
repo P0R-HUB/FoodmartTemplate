@@ -80,44 +80,31 @@
 
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart" aria-labelledby="My Cart">
       <div class="offcanvas-header justify-content-center">
+        <h5 class="offcanvas-title me-auto">Your Cart</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
-      <div class="offcanvas-body">
-        <div class="order-md-last">
-          <h4 class="d-flex justify-content-between align-items-center mb-3">
-            <span class="text-primary">Your cart</span>
-            <span class="badge bg-primary rounded-pill">3</span>
-          </h4>
-          <ul class="list-group mb-3">
-            <li class="list-group-item d-flex justify-content-between lh-sm">
-              <div>
-                <h6 class="my-0">Growers cider</h6>
-                <small class="text-body-secondary">Brief description</small>
-              </div>
-              <span class="text-body-secondary">$12</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between lh-sm">
-              <div>
-                <h6 class="my-0">Fresh grapes</h6>
-                <small class="text-body-secondary">Brief description</small>
-              </div>
-              <span class="text-body-secondary">$8</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between lh-sm">
-              <div>
-                <h6 class="my-0">Heinz tomato ketchup</h6>
-                <small class="text-body-secondary">Brief description</small>
-              </div>
-              <span class="text-body-secondary">$5</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span>Total (USD)</span>
-              <strong>$20</strong>
-            </li>
-          </ul>
-  
-          <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+      <div class="offcanvas-body d-flex flex-column">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-muted fs-6">รายการสินค้า</span>
+          <span id="cart-item-count" class="badge bg-primary rounded-pill">0</span>
         </div>
+
+        <!-- รายการสินค้าในตะกร้า (render โดย JS) -->
+        <ul id="cart-item-list" class="list-group mb-3 flex-grow-1" style="overflow-y:auto;">
+          <li class="list-group-item text-center text-muted py-5" id="cart-empty-msg">
+            ยังไม่มีสินค้าในตะกร้า
+          </li>
+        </ul>
+
+        <!-- ราคารวม -->
+        <div class="list-group-item d-flex justify-content-between fw-bold fs-5 border rounded mb-3 px-3 py-2">
+          <span>Total (USD)</span>
+          <span id="cart-total-price">$0.00</span>
+        </div>
+
+        <button class="w-100 btn btn-primary btn-lg" type="button" id="checkout-btn" disabled>
+          Continue to checkout
+        </button>
       </div>
     </div>
     
@@ -201,6 +188,7 @@
               <li class="d-lg-none">
                 <a href="#" class="rounded-circle bg-light p-2 mx-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
                   <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#cart"></use></svg>
+                  <span class="cart-badge badge bg-danger rounded-pill position-absolute" style="top:0;right:0;font-size:10px;display:none;"></span>
                 </a>
               </li>
               <li class="d-lg-none">
@@ -213,7 +201,7 @@
             <div class="cart text-end d-none d-lg-block dropdown">
               <button class="border-0 bg-transparent d-flex flex-column gap-2 lh-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
                 <span class="fs-6 text-muted dropdown-toggle">Your Cart</span>
-                <span class="cart-total fs-5 fw-bold">$1290.00</span>
+                <span class="cart-total fs-5 fw-bold">$00.00</span>
               </button>
             </div>
           </div>
@@ -664,7 +652,7 @@
                                   </button>
                               </span>
                           </div>
-                          <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                          <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                         </div>
                       </div>
                     </div>
@@ -695,7 +683,7 @@
                                   </button>
                               </span>
                           </div>
-                          <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                          <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                         </div>
                       </div>
                     </div>
@@ -725,7 +713,7 @@
                                   </button>
                               </span>
                           </div>
-                          <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                          <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                         </div>
                       </div>
                     </div>
@@ -755,7 +743,7 @@
                                   </button>
                               </span>
                           </div>
-                          <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                          <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                         </div>
                       </div>
                     </div>
@@ -785,7 +773,7 @@
                                   </button>
                               </span>
                           </div>
-                          <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                          <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                         </div>
                       </div>
                     </div>
@@ -815,7 +803,7 @@
                                   </button>
                               </span>
                           </div>
-                          <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                          <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                         </div>
                       </div>
                     </div>
@@ -845,7 +833,7 @@
                                   </button>
                               </span>
                           </div>
-                          <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                          <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                         </div>
                       </div>
                     </div>
@@ -875,7 +863,7 @@
                                   </button>
                               </span>
                           </div>
-                          <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                          <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                         </div>
                       </div>
                     </div>
@@ -905,7 +893,7 @@
                                   </button>
                               </span>
                           </div>
-                          <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                          <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                         </div>
                       </div>
                     </div>
@@ -935,7 +923,7 @@
                                   </button>
                               </span>
                           </div>
-                          <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                          <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                         </div>
                       </div>
                     </div>
@@ -975,7 +963,7 @@
                                   </button>
                               </span>
                           </div>
-                          <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                          <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                         </div>
                       </div>
                     </div>
@@ -1006,7 +994,7 @@
                                   </button>
                               </span>
                           </div>
-                          <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                          <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                         </div>
                       </div>
                     </div>
@@ -1037,7 +1025,7 @@
                                   </button>
                               </span>
                           </div>
-                          <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                          <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                         </div>
                       </div>
                     </div>
@@ -1067,7 +1055,7 @@
                                   </button>
                               </span>
                           </div>
-                          <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                          <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                         </div>
                       </div>
                     </div>
@@ -1097,7 +1085,7 @@
                                   </button>
                               </span>
                           </div>
-                          <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                          <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                         </div>
                       </div>
                     </div>
@@ -1127,7 +1115,7 @@
                                   </button>
                               </span>
                           </div>
-                          <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                          <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                         </div>
                       </div>
                     </div>
@@ -1165,7 +1153,7 @@
                                   </button>
                               </span>
                           </div>
-                          <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                          <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                         </div>
                       </div>
                     </div>
@@ -1195,7 +1183,7 @@
                                   </button>
                               </span>
                           </div>
-                          <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                          <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                         </div>
                       </div>
                     </div>
@@ -1225,7 +1213,7 @@
                                   </button>
                               </span>
                           </div>
-                          <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                          <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                         </div>
                       </div>
                     </div>
@@ -1255,7 +1243,7 @@
                                   </button>
                               </span>
                           </div>
-                          <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                          <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                         </div>
                       </div>
                     </div>
@@ -1285,7 +1273,7 @@
                                   </button>
                               </span>
                           </div>
-                          <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                          <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                         </div>
                       </div>
                     </div>
@@ -1315,7 +1303,7 @@
                                   </button>
                               </span>
                           </div>
-                          <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                          <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                         </div>
                       </div>
                     </div>
@@ -1419,7 +1407,7 @@
                             </button>
                         </span>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                   </div>
                 </div>
 
@@ -1448,7 +1436,7 @@
                             </button>
                         </span>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                   </div>
                 </div>
 
@@ -1477,7 +1465,7 @@
                             </button>
                         </span>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                   </div>
                 </div>
 
@@ -1506,7 +1494,7 @@
                             </button>
                         </span>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                   </div>
                 </div>
                 <div class="product-item swiper-slide">
@@ -1533,7 +1521,7 @@
                             </button>
                         </span>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                   </div>
                 </div>
 
@@ -1561,7 +1549,7 @@
                             </button>
                         </span>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                   </div>
                 </div>
 
@@ -1589,7 +1577,7 @@
                             </button>
                         </span>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                   </div>
                 </div>
 
@@ -1617,7 +1605,7 @@
                             </button>
                         </span>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                   </div>
                 </div>
                 
@@ -1723,7 +1711,7 @@
                             </button>
                         </span>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                   </div>
                 </div>
 
@@ -1751,7 +1739,7 @@
                             </button>
                         </span>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                   </div>
                 </div>
 
@@ -1779,7 +1767,7 @@
                             </button>
                         </span>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                   </div>
                 </div>
 
@@ -1807,7 +1795,7 @@
                             </button>
                         </span>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                   </div>
                 </div>
                 <div class="product-item swiper-slide">
@@ -1834,7 +1822,7 @@
                             </button>
                         </span>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                   </div>
                 </div>
 
@@ -1862,7 +1850,7 @@
                             </button>
                         </span>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                   </div>
                 </div>
 
@@ -1890,7 +1878,7 @@
                             </button>
                         </span>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                   </div>
                 </div>
 
@@ -1918,7 +1906,7 @@
                             </button>
                         </span>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                   </div>
                 </div>
                 
@@ -1981,7 +1969,7 @@
                             </button>
                         </span>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                   </div>
                 </div>
 
@@ -2009,7 +1997,7 @@
                             </button>
                         </span>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                   </div>
                 </div>
 
@@ -2037,7 +2025,7 @@
                             </button>
                         </span>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                   </div>
                 </div>
 
@@ -2065,7 +2053,7 @@
                             </button>
                         </span>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                   </div>
                 </div>
                 <div class="product-item swiper-slide">
@@ -2092,7 +2080,7 @@
                             </button>
                         </span>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                   </div>
                 </div>
 
@@ -2120,7 +2108,7 @@
                             </button>
                         </span>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                   </div>
                 </div>
 
@@ -2148,7 +2136,7 @@
                             </button>
                         </span>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                   </div>
                 </div>
 
@@ -2176,7 +2164,7 @@
                             </button>
                         </span>
                     </div>
-                    <a href="#" class="nav-link">Add to Cart <iconify-icon icon="uil:shopping-cart"></a>
+                    <button type="button" class="add-to-cart btn btn-sm btn-outline-success">Add to Cart</button>
                   </div>
                 </div>
                 

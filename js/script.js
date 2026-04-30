@@ -99,7 +99,7 @@
           '<input type="text" name="quantity" class="form-control input-number quantity-input" value="1">' +
           '<span class="input-group-btn"><button type="button" class="quantity-right-plus btn btn-success btn-number"><svg width="16" height="16"><use xlink:href="#plus"></use></svg></button></span>' +
         '</div>' +
-        '<a href="#" class="nav-link">Add to Cart</a>' +
+        '<button class="add-to-cart btn btn-sm btn-outline-success" data-id="'+product.id+'">Add to Cart</button>' +
       '</div></div>';
   };
 
@@ -153,9 +153,38 @@
       console.log('Loaded', allProducts.length, 'products');
       initSwiper();
       initProductQty();
+      syncStaticPrices();
     } catch (err) {
       console.error('Failed to load products:', err);
     }
+  };
+
+  /* ── Sync prices/ratings on static HTML product cards ── */
+  var syncStaticPrices = function() {
+    // วนทุก .product-item ที่ไม่ได้ render โดย JS (ไม่มี data-synced)
+    $('.product-item').not('[data-synced]').each(function() {
+      var $card = $(this);
+      var name = $card.find('h3').text().trim();
+      var product = allProducts.find(function(p) {
+        return p.name.toLowerCase() === name.toLowerCase();
+      });
+      if (!product) return;
+
+      // อัปเดตราคา
+      $card.find('.price').text('$' + product.price.toFixed(2));
+
+      // อัปเดต rating
+      var stars = '';
+      for (var i = 0; i < Math.floor(product.rating || 0); i++) {
+        stars += '<svg width="18" height="18" class="text-primary"><use xlink:href="#star-solid"></use></svg>';
+      }
+      $card.find('.rating').html(stars + ' ' + (product.rating || 0).toFixed(1));
+
+      // ใส่ data-id บน add-to-cart button ด้วย
+      $card.find('.add-to-cart').attr('data-id', product.id);
+
+      $card.attr('data-synced', '1');
+    });
   };
 
   var initJarallax = function() {
@@ -163,10 +192,130 @@
     jarallax(document.querySelectorAll(".jarallax-keep-img"), { keepImg: true });
   };
 
+
+  /* ── Cart (Event Delegation) ── */
+  var cart = {}; // { productId: quantity }
+
+  var initCart = function() {
+
+    // Event Delegation — ติด listener ครั้งเดียวที่ document
+    // จับทุกปุ่ม .add-to-cart ไม่ว่าจะ render มาตอนไหน
+    $(document).on('click', '.add-to-cart', function(e) {
+      e.preventDefault();
+
+      // ดึง product ID จากปุ่ม — ถ้าไม่มีให้ค้นหาจากชื่อสินค้า
+      var productId = String($(this).data('id'));
+      if (!productId || productId === 'undefined') {
+        // fallback: หา product จากชื่อใน .product-item ที่ใกล้ที่สุด
+        var productName = $(this).closest('.product-item').find('h3').text().trim();
+        var found = allProducts.find(function(p) {
+          return p.name.toLowerCase() === productName.toLowerCase();
+        });
+        if (!found) return;
+        productId = String(found.id);
+      }
+
+      // หา quantity จาก input ใน product-qty ที่ใกล้ที่สุด
+      var qty = parseInt($(this).closest('.d-flex').find('.quantity-input, .input-number').val(), 10) || 1;
+
+      // เพิ่มจำนวนเข้า cart
+      cart[productId] = (cart[productId] || 0) + qty;
+
+      updateCartUI();
+
+      // Flash ปุ่มให้รู้ว่าเพิ่มแล้ว
+      var $btn = $(this);
+      $btn.text('✓ Added').addClass('btn-success').removeClass('btn-outline-success');
+      setTimeout(function() {
+        $btn.text('Add to Cart').removeClass('btn-success').addClass('btn-outline-success');
+      }, 1000);
+    });
+
+    // ปุ่ม remove ใน cart offcanvas (Event Delegation)
+    $(document).on('click', '.cart-remove-btn', function() {
+      var id = String($(this).data('id'));
+      delete cart[id];
+      updateCartUI();
+    });
+
+    // ปุ่ม +/- จำนวนใน cart offcanvas
+    $(document).on('click', '.cart-qty-btn', function() {
+      var id    = String($(this).data('id'));
+      var delta = parseInt($(this).data('delta'), 10);
+      cart[id]  = (cart[id] || 0) + delta;
+      if (cart[id] <= 0) delete cart[id];
+      updateCartUI();
+    });
+  };
+
+  var updateCartUI = function() {
+    var $list      = $('#cart-item-list');
+    var $emptyMsg  = $('#cart-empty-msg');
+    var $count     = $('#cart-item-count');
+    var $total     = $('#cart-total-price');
+    var $headerTotal = $('.cart-total');
+    var $checkoutBtn = $('#checkout-btn');
+
+    var ids = Object.keys(cart);
+
+    // คำนวณยอดรวม
+    var totalQty   = 0;
+    var totalPrice = 0;
+
+    // ล้างรายการเก่า (ยกเว้น empty msg)
+    $list.find('.cart-real-item').remove();
+
+    if (ids.length === 0) {
+      $emptyMsg.show();
+      $checkoutBtn.prop('disabled', true);
+    } else {
+      $emptyMsg.hide();
+      $checkoutBtn.prop('disabled', false);
+
+      ids.forEach(function(id) {
+        var product = allProducts.find(function(p) { return String(p.id) === id; });
+        if (!product) return;
+
+        var qty      = cart[id];
+        var subtotal = product.price * qty;
+        totalQty    += qty;
+        totalPrice  += subtotal;
+
+        // สร้าง row สินค้าใน cart
+        var row = '<li class="cart-real-item list-group-item">' +
+          '<div class="d-flex justify-content-between align-items-start gap-2">' +
+            '<div class="flex-grow-1">' +
+              '<h6 class="mb-1">' + product.name + '</h6>' +
+              '<small class="text-muted">$' + product.price.toFixed(2) + ' / ชิ้น</small>' +
+            '</div>' +
+            '<div class="d-flex align-items-center gap-1">' +
+              '<button class="cart-qty-btn btn btn-sm btn-outline-secondary px-2 py-0" data-id="' + id + '" data-delta="-1">−</button>' +
+              '<span class="px-2 fw-bold">' + qty + '</span>' +
+              '<button class="cart-qty-btn btn btn-sm btn-outline-secondary px-2 py-0" data-id="' + id + '" data-delta="1">+</button>' +
+            '</div>' +
+            '<div class="text-end ms-2">' +
+              '<span class="fw-bold">$' + subtotal.toFixed(2) + '</span><br>' +
+              '<button class="cart-remove-btn btn btn-link btn-sm text-danger p-0" data-id="' + id + '">ลบ</button>' +
+            '</div>' +
+          '</div>' +
+        '</li>';
+
+        $list.append(row);
+      });
+    }
+
+    // อัปเดต UI ทั้งหมด
+    $count.text(totalQty);
+    $total.text('$' + totalPrice.toFixed(2));
+    $headerTotal.text('$' + totalPrice.toFixed(2));
+    $('.cart-badge').text(totalQty).toggle(totalQty > 0);
+  };
+
   /* ── Document ready ── */
   $(document).ready(function() {
     initPreloader();
     requestProducts();
+    initCart();
     initJarallax();
     initChocolat();
 
