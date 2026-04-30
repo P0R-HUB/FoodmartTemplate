@@ -154,9 +154,9 @@
           </div>
           
           <div class="col-sm-6 offset-sm-2 offset-md-0 col-lg-5 d-none d-lg-block">
-            <div class="search-bar row bg-light p-2 my-2 rounded-4">
-              <div class="col-md-4 d-none d-md-block">
-                <select class="form-select border-0 bg-transparent">
+            <div class="search-bar d-flex align-items-center bg-light px-3 py-2 my-2 rounded-4 gap-2">
+              <div class="flex-shrink-0 border-end pe-2">
+                <select class="form-select border-0 bg-transparent" style="min-width:130px">
                   <option>All Categories</option>
                   <option>Clothing</option>
                   <option>Footwear</option>
@@ -169,23 +169,15 @@
                   <option>Home</option>
                 </select>
               </div>
-              <div class="col-11 col-md-7">
-                    <div class="col-11 col-md-7 position-relative">
-                <form id="search-form" class="text-center" action="index.html" method="post">
-                  <input id="desktop-search-input" name="query" type="search" class="form-control border-0 bg-transparent" placeholder="Search for more than 20,000 products" aria-label="Search products" autocomplete="off" />
-                </form>
-                <div id="desktop-search-suggestions" class="search-suggestions list-group d-none"></div>
-              </div>
-              <div class="col-1 d-flex align-items-center justify-content-center">
-                <button type="submit" form="search-form" class="btn btn-link p-0 text-muted" title="Search">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z"/></svg>
+              <form id="search-form" class="flex-grow-1 d-flex align-items-center gap-1 m-0" action="index.html" method="post">
+                <input id="desktop-search-input" name="query" type="search" class="form-control border-0 bg-transparent shadow-none" placeholder="Search for more than 20,000 products" aria-label="Search products" autocomplete="off" />
+                <button type="submit" class="btn btn-link p-0 text-muted flex-shrink-0" title="Search">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="currentColor" d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z"/></svg>
                 </button>
-              </div>
-              <div class="col-1">
-                <button type="button" class="btn btn-link p-0 text-muted" id="clear-search" title="Clear Search">
+                <button type="button" class="btn btn-link p-0 text-muted flex-shrink-0" id="clear-search" title="Clear Search">
                   <svg width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
                 </button>
-              </div>
+              </form>
             </div>
           </div>
           
@@ -302,6 +294,28 @@
       </div>
     </header>
     
+    <!-- ===== SEARCH RESULTS SECTION ===== -->
+    <section id="search-results-section" class="py-5" style="display:none; background:#f8f9fa; border-bottom: 2px solid #e9ecef;">
+      <div class="container-fluid">
+        <div class="section-header d-flex flex-wrap justify-content-between align-items-center mb-4">
+          <div>
+            <h2 class="section-title mb-1">ผลการค้นหา</h2>
+            <span id="search-results-count" class="text-muted fs-6"></span>
+          </div>
+          <div class="d-flex align-items-center gap-3">
+            <button id="close-search-results" class="btn btn-outline-secondary btn-sm">✕ ปิดผลการค้นหา</button>
+            <div class="swiper-buttons">
+              <button class="swiper-prev products-carousel-prev btn btn-primary">276e</button>
+              <button class="swiper-next products-carousel-next btn btn-primary">276f</button>
+            </div>
+          </div>
+        </div>
+        <div class="products-carousel swiper">
+          <div class="swiper-wrapper"></div>
+        </div>
+      </div>
+    </section>
+
     <section class="py-3" style="background-image: url('images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;">
       <div class="container-fluid">
         <div class="row">
