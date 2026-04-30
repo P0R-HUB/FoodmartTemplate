@@ -73,7 +73,7 @@
   };
 
   /* ── Product data ── */
-  var PRODUCTS_JSON_PATH = 'products.json';
+  var PRODUCTS_JSON_PATH = 'JSON/products.json';
   var allProducts = [];
 
   var fetchProducts = async function(path) {
