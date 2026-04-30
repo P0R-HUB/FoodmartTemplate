@@ -25,7 +25,6 @@
   var productSwiperInstances = [];
 
   var initSwiper = function() {
-
     new Swiper(".main-swiper", {
       speed: 500,
       pagination: { el: ".swiper-pagination", clickable: true },
@@ -78,7 +77,7 @@
 
   var fetchProducts = async function(path) {
     var response = await fetch(path);
-    if (!response.ok) throw new Error('Fetch failed: ' + response.status);
+    if (!response.ok) throw new Error('Fetch failed: ' + response.status + ' ' + response.statusText);
     return response.json();
   };
 
@@ -104,16 +103,15 @@
       '</div></div>';
   };
 
-  /* ── renderUI: writes into #search-results-section only ── */
+  /* ── renderUI ── */
   var renderUI = function(products) {
-    if (!products) products = allProducts;
     var $section = $('#search-results-section');
     var $wrapper = $section.find('.swiper-wrapper');
 
     $section.show();
 
-    if (products.length === 0) {
-      $wrapper.html('<div class="p-4 text-muted">ไม่พบสินค้าที่ตรงกับการค้นหา</div>');
+    if (!products || products.length === 0) {
+      $wrapper.html('<div class="p-4 text-muted w-100">ไม่พบสินค้าที่ตรงกับการค้นหา</div>');
       $('#search-results-count').text('ไม่พบสินค้า');
       if (window._searchSwiper && !window._searchSwiper.destroyed) window._searchSwiper.destroy(true,true);
       return;
@@ -136,6 +134,7 @@
 
   /* ── Filter ── */
   var filterProducts = function(searchTerm, category) {
+    console.log('filterProducts called. allProducts.length =', allProducts.length, '| term:', searchTerm, '| cat:', category);
     return allProducts.filter(function(p) {
       var matchName = !searchTerm ||
         p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -148,8 +147,10 @@
   /* ── Load products on start ── */
   var requestProducts = async function() {
     try {
+      console.log('Fetching products from:', PRODUCTS_JSON_PATH);
       var data = await fetchProducts(PRODUCTS_JSON_PATH);
       allProducts = data.products || [];
+      console.log('Loaded', allProducts.length, 'products');
       initSwiper();
       initProductQty();
     } catch (err) {
@@ -174,13 +175,14 @@
       e.preventDefault();
       var term = $(this).find('input[name="query"]').val().trim();
       var cat  = $('.search-bar select').val() || 'All Categories';
+      console.log('Search submitted. term:', term, '| cat:', cat, '| allProducts:', allProducts.length);
       renderUI(filterProducts(term, cat));
 
       var offEl = document.getElementById('offcanvasSearch');
       if (offEl) { var inst = bootstrap.Offcanvas.getInstance(offEl); if(inst) inst.hide(); }
     });
 
-    /* Close search results section */
+    /* Close search results */
     $(document).on('click', '#close-search-results', function() {
       $('#search-results-section').hide();
       $('#desktop-search-input, #offcanvas-search-input').val('');
