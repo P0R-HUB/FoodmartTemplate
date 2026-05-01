@@ -72,7 +72,7 @@
   };
 
   /* ── Product data ── */
-  var PRODUCTS_JSON_PATH = 'JSON/products.json';
+  var PRODUCTS_JSON_PATH = 'http://localhost:3000/api/products';
   var allProducts = [];
 
   var fetchProducts = async function(path) {
@@ -144,48 +144,120 @@
     });
   };
 
+  /* ── Build a product card for the main grid ── */
+  var buildProductGridCard = function(product) {
+    var badge = product.price < 25
+      ? '<span class="badge bg-success position-absolute m-3">Sale</span>'
+      : '';
+    var stars = '';
+    for (var i = 0; i < Math.floor(product.rating || 0); i++) {
+      stars += '<svg width="18" height="18" class="text-warning"><use xlink:href="#star-solid"></use></svg>';
+    }
+    return '<div class="col">' +
+      '<div class="product-item h-100 d-flex flex-column">' +
+        badge +
+        '<a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>' +
+        '<figure><a href="index.html" title="' + product.name + '">' +
+          '<img src="' + product.image + '" class="tab-image" alt="' + product.name + '" onerror="this.src=\'images/thumb-bananas.png\'">' +
+        '</a></figure>' +
+        '<h3 class="flex-grow-1">' + product.name + '</h3>' +
+        '<span class="badge bg-light text-secondary border mb-1">' + product.category + '</span>' +
+        '<span class="rating d-block mb-1">' + stars + ' <small class="text-muted">' + (product.rating || 0).toFixed(1) + '</small></span>' +
+        '<span class="price d-block mb-2">$' + (product.price || 0).toFixed(2) + '</span>' +
+        '<div class="d-flex align-items-center justify-content-between mt-auto">' +
+          '<div class="input-group product-qty" style="max-width:110px">' +
+            '<span class="input-group-btn"><button type="button" class="quantity-left-minus btn btn-danger btn-sm btn-number"><svg width="14" height="14"><use xlink:href="#minus"></use></svg></button></span>' +
+            '<input type="text" name="quantity" class="form-control form-control-sm input-number quantity-input text-center" value="1">' +
+            '<span class="input-group-btn"><button type="button" class="quantity-right-plus btn btn-success btn-sm btn-number"><svg width="14" height="14"><use xlink:href="#plus"></use></svg></button></span>' +
+          '</div>' +
+          '<button class="add-to-cart btn btn-sm btn-outline-success" data-id="' + product.id + '">Add to Cart</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  };
+
+  /* ── Render All Products grid ── */
+  var currentCategory = 'all';
+  var currentSort     = '';
+  var currentSearch   = '';
+
+  var renderAllProducts = function() {
+    var list = allProducts.slice();
+
+    if (currentSearch) {
+      var term = currentSearch.toLowerCase();
+      list = list.filter(function(p) {
+        return p.name.toLowerCase().includes(term) ||
+               (p.description && p.description.toLowerCase().includes(term)) ||
+               p.category.toLowerCase().includes(term);
+      });
+    }
+
+    if (currentCategory !== 'all') {
+      list = list.filter(function(p) { return p.category === currentCategory; });
+    }
+
+    if (currentSort === 'price_asc')  list.sort(function(a,b){ return a.price - b.price; });
+    if (currentSort === 'price_desc') list.sort(function(a,b){ return b.price - a.price; });
+    if (currentSort === 'rating')     list.sort(function(a,b){ return b.rating - a.rating; });
+
+    var $grid = $('#all-products-grid');
+    $grid.empty();
+
+    if (list.length === 0) {
+      $grid.html('<div class="col-12 text-center py-5 text-muted"><h5>ไม่พบสินค้าที่ตรงกับการค้นหา</h5></div>');
+    } else {
+      list.forEach(function(p) { $grid.append(buildProductGridCard(p)); });
+    }
+
+    var label = currentSearch
+      ? 'ค้นหา "' + currentSearch + '" พบ ' + list.length + ' สินค้า'
+      : 'แสดง ' + list.length + ' จาก ' + allProducts.length + ' สินค้า';
+    $('#product-count').text(label);
+    initProductQty();
+  };
+
+  /* ── Sync prices on hardcoded carousel cards ── */
+  var syncCarouselPrices = function() {
+    $('.product-item').not('[data-synced]').each(function() {
+      var $card = $(this);
+      var name  = $card.find('h3').text().trim();
+      var product = allProducts.find(function(p) {
+        return p.name.toLowerCase() === name.toLowerCase();
+      });
+      if (!product) return;
+      $card.find('.price').text('$' + product.price.toFixed(2));
+      $card.find('.add-to-cart').attr('data-id', product.id);
+      $card.attr('data-synced', '1');
+    });
+  };
+
+  /* ── Build category filter buttons ── */
+  var buildCategoryFilters = function() {
+    var categories = [...new Set(allProducts.map(function(p){ return p.category; }))].sort();
+    var $filters = $('#category-filters');
+    categories.forEach(function(cat) {
+      $filters.append(
+        '<button class="btn btn-sm btn-outline-secondary filter-btn" data-cat="' + cat + '">' + cat + '</button>'
+      );
+    });
+  };
+
   /* ── Load products on start ── */
   var requestProducts = async function() {
     try {
-      console.log('Fetching products from:', PRODUCTS_JSON_PATH);
       var data = await fetchProducts(PRODUCTS_JSON_PATH);
-      allProducts = data.products || [];
-      console.log('Loaded', allProducts.length, 'products');
+      allProducts = data.data || data.products || [];
+      buildCategoryFilters();
+      renderAllProducts();
+      syncCarouselPrices();
       initSwiper();
       initProductQty();
-      syncStaticPrices();
     } catch (err) {
       console.error('Failed to load products:', err);
     }
   };
 
-  /* ── Sync prices/ratings on static HTML product cards ── */
-  var syncStaticPrices = function() {
-    // วนทุก .product-item ที่ไม่ได้ render โดย JS (ไม่มี data-synced)
-    $('.product-item').not('[data-synced]').each(function() {
-      var $card = $(this);
-      var name = $card.find('h3').text().trim();
-      var product = allProducts.find(function(p) {
-        return p.name.toLowerCase() === name.toLowerCase();
-      });
-      if (!product) return;
-
-      // อัปเดตราคา
-      $card.find('.price').text('$' + product.price.toFixed(2));
-
-      // อัปเดต rating
-      var stars = '';
-      for (var i = 0; i < Math.floor(product.rating || 0); i++) {
-        stars += '<svg width="18" height="18" class="text-primary"><use xlink:href="#star-solid"></use></svg>';
-      }
-      $card.find('.rating').html(stars + ' ' + (product.rating || 0).toFixed(1));
-
-      // ใส่ data-id บน add-to-cart button ด้วย
-      $card.find('.add-to-cart').attr('data-id', product.id);
-
-      $card.attr('data-synced', '1');
-    });
-  };
 
   var initJarallax = function() {
     jarallax(document.querySelectorAll(".jarallax"));
@@ -312,32 +384,41 @@
     initJarallax();
     initChocolat();
 
-    /* Search */
+    /* Category filter buttons */
+    $(document).on('click', '.filter-btn', function() {
+      $('.filter-btn').removeClass('btn-primary active').addClass('btn-outline-secondary');
+      $(this).removeClass('btn-outline-secondary').addClass('btn-primary active');
+      currentCategory = $(this).data('cat');
+      renderAllProducts();
+    });
+
+    /* Sort */
+    $('#sort-select').on('change', function() {
+      currentSort = $(this).val();
+      renderAllProducts();
+    });
+
+    /* Search — filter the main grid directly */
     $('#search-form, #offcanvas-search-form').on('submit', function(e) {
       e.preventDefault();
-      var term = $(this).find('input[name="query"]').val().trim();
-      var cat  = $('.search-bar select').val() || 'All Categories';
-      console.log('Search submitted. term:', term, '| cat:', cat, '| allProducts:', allProducts.length);
-      renderUI(filterProducts(term, cat));
+      currentSearch   = $(this).find('input[name="query"]').val().trim();
+      currentCategory = 'all';
+      currentSort     = '';
+      $('.filter-btn').removeClass('btn-primary active').addClass('btn-outline-secondary');
+      $('.filter-btn[data-cat="all"]').removeClass('btn-outline-secondary').addClass('btn-primary active');
+      $('#sort-select').val('');
+      renderAllProducts();
+      $('html,body').animate({ scrollTop: $('#all-products').offset().top - 80 }, 400);
 
       var offEl = document.getElementById('offcanvasSearch');
       if (offEl) { var inst = bootstrap.Offcanvas.getInstance(offEl); if(inst) inst.hide(); }
     });
 
-    /* Close search results */
-    $(document).on('click', '#close-search-results', function() {
-      $('#search-results-section').hide();
-      $('#desktop-search-input, #offcanvas-search-input').val('');
-      $('.search-bar select').val('All Categories');
-      $('#search-results-count').text('');
-    });
-
-    /* Clear */
+    /* Clear search */
     $('#clear-search').on('click', function() {
       $('#desktop-search-input, #offcanvas-search-input').val('');
-      $('.search-bar select').val('All Categories');
-      $('#search-results-section').hide();
-      $('#search-results-count').text('');
+      currentSearch = '';
+      renderAllProducts();
     });
   });
 
