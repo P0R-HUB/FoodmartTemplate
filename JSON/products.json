@@ -1,184 +1,24 @@
 {
   "products": [
-    {
-      "id": 1,
-      "name": "Classic White T-Shirt",
-      "price": 19.99,
-      "image": "images/product-1.jpg",
-      "category": "Clothing",
-      "description": "Comfortable cotton t-shirt for everyday wear.",
-      "rating": 4.5
-    },
-    {
-      "id": 2,
-      "name": "Slim Fit Jeans",
-      "price": 49.99,
-      "image": "images/product-2.jpg",
-      "category": "Clothing",
-      "description": "Stylish slim fit jeans with stretch fabric.",
-      "rating": 4.3
-    },
-    {
-      "id": 3,
-      "name": "Running Sneakers",
-      "price": 69.99,
-      "image": "images/product-3.jpg",
-      "category": "Footwear",
-      "description": "Lightweight sneakers designed for running.",
-      "rating": 4.6
-    },
-    {
-      "id": 4,
-      "name": "Leather Wallet",
-      "price": 29.99,
-      "image": "images/product-4.jpg",
-      "category": "Accessories",
-      "description": "Premium leather wallet with multiple slots.",
-      "rating": 4.4
-    },
-    {
-      "id": 5,
-      "name": "Smart Watch",
-      "price": 129.99,
-      "image": "images/product-5.jpg",
-      "category": "Electronics",
-      "description": "Track your fitness and notifications on the go.",
-      "rating": 4.7
-    },
-    {
-      "id": 6,
-      "name": "Bluetooth Headphones",
-      "price": 59.99,
-      "image": "images/product-6.jpg",
-      "category": "Electronics",
-      "description": "Wireless headphones with noise cancellation.",
-      "rating": 4.5
-    },
-    {
-      "id": 7,
-      "name": "Backpack",
-      "price": 39.99,
-      "image": "images/product-7.jpg",
-      "category": "Bags",
-      "description": "Durable backpack for travel and daily use.",
-      "rating": 4.2
-    },
-    {
-      "id": 8,
-      "name": "Sunglasses",
-      "price": 24.99,
-      "image": "images/product-8.jpg",
-      "category": "Accessories",
-      "description": "UV protection sunglasses with modern style.",
-      "rating": 4.3
-    },
-    {
-      "id": 9,
-      "name": "Baseball Cap",
-      "price": 14.99,
-      "image": "images/product-9.jpg",
-      "category": "Accessories",
-      "description": "Adjustable cap with breathable fabric.",
-      "rating": 4.1
-    },
-    {
-      "id": 10,
-      "name": "Casual Hoodie",
-      "price": 44.99,
-      "image": "images/product-10.jpg",
-      "category": "Clothing",
-      "description": "Warm and cozy hoodie for casual wear.",
-      "rating": 4.6
-    },
-    {
-      "id": 11,
-      "name": "Sports Shorts",
-      "price": 22.99,
-      "image": "images/product-11.jpg",
-      "category": "Clothing",
-      "description": "Breathable shorts perfect for workouts.",
-      "rating": 4.2
-    },
-    {
-      "id": 12,
-      "name": "Digital Camera",
-      "price": 299.99,
-      "image": "images/product-12.jpg",
-      "category": "Electronics",
-      "description": "Capture high-quality photos and videos.",
-      "rating": 4.7
-    },
-    {
-      "id": 13,
-      "name": "Gaming Mouse",
-      "price": 34.99,
-      "image": "images/product-13.jpg",
-      "category": "Electronics",
-      "description": "High precision mouse for gaming.",
-      "rating": 4.5
-    },
-    {
-      "id": 14,
-      "name": "Office Chair",
-      "price": 89.99,
-      "image": "images/product-14.jpg",
-      "category": "Furniture",
-      "description": "Ergonomic chair for comfortable work hours.",
-      "rating": 4.4
-    },
-    {
-      "id": 15,
-      "name": "Water Bottle",
-      "price": 12.99,
-      "image": "images/product-15.jpg",
-      "category": "Lifestyle",
-      "description": "Reusable bottle for daily hydration.",
-      "rating": 4.3
-    },
-    {
-      "id": 16,
-      "name": "Yoga Mat",
-      "price": 25.99,
-      "image": "images/product-16.jpg",
-      "category": "Fitness",
-      "description": "Non-slip mat for yoga and exercise.",
-      "rating": 4.6
-    },
-    {
-      "id": 17,
-      "name": "Desk Lamp",
-      "price": 27.99,
-      "image": "images/product-17.jpg",
-      "category": "Home",
-      "description": "LED lamp with adjustable brightness.",
-      "rating": 4.2
-    },
-    {
-      "id": 18,
-      "name": "Portable Speaker",
-      "price": 49.99,
-      "image": "images/product-18.jpg",
-      "category": "Electronics",
-      "description": "Compact speaker with powerful sound.",
-      "rating": 4.5
-    },
-    {
-      "id": 19,
-      "name": "Travel Suitcase",
-      "price": 99.99,
-      "image": "images/product-19.jpg",
-      "category": "Bags",
-      "description": "Spacious suitcase with durable wheels.",
-      "rating": 4.4
-    },
-    {
-      "id": 20,
-      "name": "Formal Shirt",
-      "price": 39.99,
-      "image": "images/product-20.jpg",
-      "category": "Clothing",
-      "description": "Elegant shirt suitable for formal occasions.",
-      "rating": 4.3
-    }
+    { "id": 1,  "name": "Fresh Avocado",        "price": 2.99, "image": "images/thumb-avocado.png",       "category": "Fruits & Vegetables", "description": "Ripe and creamy avocado, perfect for salads and toast.",              "rating": 4.8 },
+    { "id": 2,  "name": "Organic Bananas",       "price": 1.49, "image": "images/thumb-bananas.png",       "category": "Fruits & Vegetables", "description": "Sweet organic bananas, naturally ripened.",                           "rating": 4.6 },
+    { "id": 3,  "name": "Fresh Raspberries",     "price": 4.99, "image": "images/thumb-raspberries.png",   "category": "Fruits & Vegetables", "description": "Juicy fresh raspberries picked at peak ripeness.",                   "rating": 4.7 },
+    { "id": 4,  "name": "Ripe Tomatoes",         "price": 1.99, "image": "images/thumb-tomatoes.png",      "category": "Fruits & Vegetables", "description": "Sun-ripened tomatoes, great for cooking and salads.",               "rating": 4.5 },
+    { "id": 5,  "name": "Fresh Cucumber",        "price": 0.99, "image": "images/thumb-cucumber.png",      "category": "Fruits & Vegetables", "description": "Crisp and cool cucumber, harvested fresh daily.",                   "rating": 4.4 },
+    { "id": 6,  "name": "Fresh Milk (1L)",       "price": 2.49, "image": "images/thumb-milk.png",          "category": "Dairy",               "description": "Full-cream fresh milk from local farms.",                           "rating": 4.8 },
+    { "id": 7,  "name": "Orange Juice",          "price": 3.49, "image": "images/thumb-orange-juice.png",  "category": "Beverages",           "description": "100% freshly squeezed orange juice, no added sugar.",              "rating": 4.7 },
+    { "id": 8,  "name": "Pure Honey",            "price": 8.99, "image": "images/thumb-honey.jpg",         "category": "Condiments",          "description": "Raw unfiltered honey straight from the hive.",                     "rating": 4.9 },
+    { "id": 9,  "name": "Tomato Ketchup",        "price": 2.99, "image": "images/thumb-tomatoketchup.png", "category": "Condiments",          "description": "Classic tangy ketchup made from ripe tomatoes.",                   "rating": 4.3 },
+    { "id": 10, "name": "Mixed Herbs",           "price": 4.49, "image": "images/thumb-herb.jpg",          "category": "Spices & Herbs",      "description": "Aromatic blend of fresh herbs for everyday cooking.",               "rating": 4.6 },
+    { "id": 11, "name": "Canned Tuna",           "price": 3.29, "image": "images/thumb-tuna.jpg",          "category": "Canned Goods",        "description": "Premium wild-caught tuna in spring water.",                        "rating": 4.5 },
+    { "id": 12, "name": "Butter Biscuits",       "price": 3.99, "image": "images/thumb-biscuits.png",      "category": "Bakery & Snacks",     "description": "Crispy butter biscuits baked to golden perfection.",               "rating": 4.4 },
+    { "id": 13, "name": "Snack Mix",             "price": 2.79, "image": "images/thumb-junk.jpg",          "category": "Bakery & Snacks",     "description": "Crunchy savory snack mix, great for sharing.",                     "rating": 4.2 },
+    { "id": 14, "name": "Artisan White Bread",   "price": 4.99, "image": "images/product-thumb-1.png",     "category": "Bakery & Snacks",     "description": "Freshly baked artisan white bread with a soft crust.",            "rating": 4.7 },
+    { "id": 15, "name": "Sourdough Loaf",        "price": 5.49, "image": "images/product-thumb-2.png",     "category": "Bakery & Snacks",     "description": "Traditional sourdough with a tangy flavour and chewy texture.",   "rating": 4.8 },
+    { "id": 16, "name": "Whole Grain Crackers",  "price": 3.19, "image": "images/product-thumb-11.jpg",    "category": "Bakery & Snacks",     "description": "Hearty whole grain crackers packed with fibre.",                  "rating": 4.3 },
+    { "id": 17, "name": "Chocolate Cookies",     "price": 4.29, "image": "images/product-thumb-12.jpg",    "category": "Bakery & Snacks",     "description": "Rich chocolate chip cookies baked with real cocoa.",              "rating": 4.6 },
+    { "id": 18, "name": "Granola Bar",           "price": 5.99, "image": "images/product-thumb-13.jpg",    "category": "Breakfast",           "description": "Energy-packed granola bar with oats, nuts, and honey.",           "rating": 4.5 },
+    { "id": 19, "name": "Organic Oats",          "price": 4.79, "image": "images/product-thumb-14.jpg",    "category": "Breakfast",           "description": "Certified organic rolled oats for a wholesome breakfast.",        "rating": 4.7 },
+    { "id": 20, "name": "Sparkling Water",       "price": 1.99, "image": "images/thumb-orange-juice.png",  "category": "Beverages",           "description": "Refreshing sparkling mineral water, naturally carbonated.",        "rating": 4.4 }
   ]
 }

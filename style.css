@@ -834,3 +834,111 @@ h1,h2,h3,h4,h5,h6 {
   font-size: 0.85rem;
   transition: all .15s;
 }
+
+/* ===== UX Improvements ===== */
+
+/* Product card — lift + image zoom */
+.product-item {
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+.product-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.10) !important;
+}
+.product-item figure img {
+  transition: transform 0.35s ease;
+}
+.product-item:hover figure img {
+  transform: scale(1.06);
+}
+.product-item figure {
+  overflow: hidden;
+}
+
+/* Cart badge pulse when item added */
+@keyframes badgePulse {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.5); }
+  100% { transform: scale(1); }
+}
+.cart-badge.pulse {
+  animation: badgePulse 0.4s ease;
+}
+
+/* Add-to-cart button */
+.add-to-cart {
+  transition: background-color 0.2s, color 0.2s, transform 0.15s;
+}
+.add-to-cart:active {
+  transform: scale(0.93);
+}
+
+/* ── Toast Notification ── */
+#toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+.toast-msg {
+  background: #222;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+  min-width: 220px;
+  max-width: 320px;
+}
+.toast-msg.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.toast-msg .toast-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+.toast-msg.success { border-left: 4px solid #a3be4c; }
+.toast-msg.error   { border-left: 4px solid #e74c3c; }
+
+/* ── Skeleton loading ── */
+.skeleton-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid #f0f0f0;
+}
+.skeleton-img {
+  width: 100%;
+  height: 160px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+.skeleton-line {
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  margin-bottom: 8px;
+}
+.skeleton-line.short { width: 60%; }
+.skeleton-line.xshort { width: 35%; }
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
