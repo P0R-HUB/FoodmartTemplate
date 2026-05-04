@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const productRoutes = require('./routes/products');
+const authRoutes = require('./routes/auth');
 
 const app = express();
 
@@ -9,6 +10,9 @@ app.use(express.json());
 
 // Mount product routes
 app.use('/api/products', productRoutes);
+
+// Mount auth routes
+app.use('/api/auth', authRoutes);
 
 // 404 handler for unknown routes
 app.use((req, res) => {

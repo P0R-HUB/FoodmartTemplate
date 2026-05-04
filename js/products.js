@@ -110,7 +110,7 @@
           '<img src="' + product.image + '" class="tab-image" alt="' + product.name + '" onerror="this.src=\'images/thumb-bananas.png\'">' +
         '</a></figure>' +
         '<h3 class="flex-grow-1">' + product.name + '</h3>' +
-        '<span class="badge bg-light text-secondary border mb-1">' + product.category + '</span>' +
+        '<span class="badge bg-light text-dark border mb-1" style="opacity:0.75">' + product.category + '</span>' +
         '<span class="rating d-block mb-1">' + stars + ' <small class="text-muted">' + (product.rating || 0).toFixed(1) + '</small></span>' +
         '<span class="price d-block mb-2">$' + (product.price || 0).toFixed(2) + '</span>' +
         '<div class="d-flex align-items-center justify-content-between mt-auto">' +

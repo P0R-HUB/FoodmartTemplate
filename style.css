@@ -942,3 +942,43 @@ h1,h2,h3,h4,h5,h6 {
   0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+
+/* ── Category filter buttons — readable contrast ── */
+#category-filters .filter-btn.btn-outline-secondary {
+  color: #444 !important;
+  border-color: #aaa !important;
+  background-color: #fff !important;
+}
+#category-filters .filter-btn.btn-outline-secondary:hover {
+  color: #111 !important;
+  border-color: #666 !important;
+  background-color: #f0f0f0 !important;
+}
+/* Active filter — dark text on yellow for legibility */
+#category-filters .filter-btn.btn-primary.active {
+  color: #222 !important;
+  font-weight: 600;
+}
+
+/* ── text-muted override — site muted is too faint ── */
+.text-muted {
+  color: #888 !important;
+}
+
+/* ── Password hint in register form ── */
+#password-hint.text-danger {
+  color: #c0392b !important;
+  font-weight: 500;
+}
+#password-hint.text-success {
+  color: #27ae60 !important;
+  font-weight: 500;
+}
+
+/* ── Auth modal alerts — override the washed-out site danger color ── */
+#authModal .alert-danger {
+  --bs-alert-color: #842029;
+  --bs-alert-bg: #f8d7da;
+  --bs-alert-border-color: #f5c2c7;
+  color: #842029;
+}
