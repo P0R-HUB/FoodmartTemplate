@@ -162,10 +162,120 @@
     });
   };
 
+  /* ── Checkout ── */
+  var CHECKOUT_API = 'http://localhost:3000/api/checkout';
+
+  var openCheckoutModal = function() {
+    // Show current total in modal header
+    var totalText = $('#cart-total-price').text();
+    $('#checkout-modal-total').text(totalText);
+
+    // Reset form state
+    $('#checkout-form')[0].reset();
+    $('#checkout-form .is-invalid').removeClass('is-invalid');
+    $('#checkout-server-error').addClass('d-none').text('');
+
+    var modal = new bootstrap.Modal(document.getElementById('checkoutModal'));
+    modal.show();
+  };
+
+  var submitCheckout = function() {
+    var name       = $('#checkout-name').val().trim();
+    var email      = $('#checkout-email').val().trim();
+    var address    = $('#checkout-address').val().trim();
+    var cardNumber = $('#checkout-card').val().replace(/\s/g, '');
+
+    // ── Client-side validation (for UX / Kindness) ──────────────────────────
+    var valid = true;
+
+    if (!name) {
+      $('#checkout-name').addClass('is-invalid'); valid = false;
+    } else {
+      $('#checkout-name').removeClass('is-invalid');
+    }
+
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      $('#checkout-email').addClass('is-invalid'); valid = false;
+    } else {
+      $('#checkout-email').removeClass('is-invalid');
+    }
+
+    if (!address) {
+      $('#checkout-address').addClass('is-invalid'); valid = false;
+    } else {
+      $('#checkout-address').removeClass('is-invalid');
+    }
+
+    if (!/^\d{16}$/.test(cardNumber)) {
+      $('#checkout-card').addClass('is-invalid'); valid = false;
+    } else {
+      $('#checkout-card').removeClass('is-invalid');
+    }
+
+    if (!valid) return;
+
+    // ── Build cart payload ───────────────────────────────────────────────────
+    var cartItems = Object.keys(cart).map(function(id) {
+      return { id: id, qty: cart[id].qty };
+    });
+
+    // ── Show loading state ───────────────────────────────────────────────────
+    $('#checkout-submit-btn').prop('disabled', true);
+    $('#checkout-btn-spinner').removeClass('d-none');
+    $('#checkout-server-error').addClass('d-none');
+
+    // ── POST to backend (Backend is the real gatekeeper) ────────────────────
+    fetch(CHECKOUT_API, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ customerName: name, email: email, address: address, cardNumber: cardNumber, cartItems: cartItems }),
+    })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        $('#checkout-submit-btn').prop('disabled', false);
+        $('#checkout-btn-spinner').addClass('d-none');
+
+        if (data.success) {
+          // ── Success: clear cart, close modal, show confirmation ────────────
+          cart = {};
+          saveToLocalStorage();
+          updateCartUI();
+
+          bootstrap.Modal.getInstance(document.getElementById('checkoutModal')).hide();
+          showToast('Order #' + data.orderId + ' confirmed! Total: $' + data.total.toFixed(2), 'success');
+        } else {
+          // ── Server rejected — highlight specific field if given ────────────
+          var msg = data.message || 'Checkout failed.';
+          if (data.field === 'email') {
+            $('#checkout-email').addClass('is-invalid');
+            $('#checkout-email-error').text(msg);
+          } else if (data.field === 'cardNumber') {
+            $('#checkout-card').addClass('is-invalid');
+            $('#checkout-card-error').text(msg);
+          } else {
+            $('#checkout-server-error').removeClass('d-none').text(msg);
+          }
+        }
+      })
+      .catch(function() {
+        // ── Network/server error — do NOT clear cart ─────────────────────────
+        $('#checkout-submit-btn').prop('disabled', false);
+        $('#checkout-btn-spinner').addClass('d-none');
+        $('#checkout-server-error').removeClass('d-none').text('Server error. Your cart has been kept. Please try again.');
+      });
+  };
+
   /* ── Public API ── */
   FoodApp.cart = {
     init: initCart,
     load: loadCart,
   };
+
+  /* ── Checkout button wiring (after DOM ready) ── */
+  $(document).ready(function() {
+    $(document).on('click', '#checkout-btn', openCheckoutModal);
+    $(document).on('click', '#checkout-submit-btn', submitCheckout);
+  });
 
 })(jQuery);
