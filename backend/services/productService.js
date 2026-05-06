@@ -1,45 +1,36 @@
-const fs = require('fs');
-const path = require('path');
-
-const DATA_PATH = path.join(__dirname, '../data/products.json');
-
-function readProductsFile() {
-  const raw = fs.readFileSync(DATA_PATH, 'utf-8');
-  return JSON.parse(raw).products;
-}
+const { db } = require('../database');
 
 function getAllProducts({ category, minPrice, maxPrice, sort } = {}) {
-  let products = readProductsFile();
+  let query  = 'SELECT * FROM products WHERE 1=1';
+  const params = [];
 
   if (category) {
-    products = products.filter(
-      (p) => p.category.toLowerCase() === category.toLowerCase()
-    );
+    query += ' AND LOWER(category) = LOWER(?)';
+    params.push(category);
   }
-
   if (minPrice !== undefined) {
-    products = products.filter((p) => p.price >= parseFloat(minPrice));
+    query += ' AND price >= ?';
+    params.push(parseFloat(minPrice));
   }
-
   if (maxPrice !== undefined) {
-    products = products.filter((p) => p.price <= parseFloat(maxPrice));
+    query += ' AND price <= ?';
+    params.push(parseFloat(maxPrice));
   }
 
-  if (sort === 'price_asc') products.sort((a, b) => a.price - b.price);
-  if (sort === 'price_desc') products.sort((a, b) => b.price - a.price);
-  if (sort === 'rating') products.sort((a, b) => b.rating - a.rating);
+  if (sort === 'price_asc')  query += ' ORDER BY price ASC';
+  else if (sort === 'price_desc') query += ' ORDER BY price DESC';
+  else if (sort === 'rating')     query += ' ORDER BY rating DESC';
 
-  return products;
+  return db.prepare(query).all(...params);
 }
 
 function getProductById(id) {
-  const products = readProductsFile();
-  return products.find((p) => p.id === parseInt(id)) || null;
+  return db.prepare('SELECT * FROM products WHERE id = ?').get(id) || null;
 }
 
 function getCategories() {
-  const products = readProductsFile();
-  return [...new Set(products.map((p) => p.category))].sort();
+  const rows = db.prepare('SELECT DISTINCT category FROM products ORDER BY category').all();
+  return rows.map((r) => r.category);
 }
 
 module.exports = { getAllProducts, getProductById, getCategories };
