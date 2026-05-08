@@ -982,3 +982,28 @@ h1,h2,h3,h4,h5,h6 {
   --bs-alert-border-color: #f5c2c7;
   color: #842029;
 }
+
+/* ── Wishlist ── */
+.btn-wishlist { transition: color 0.2s; }
+.btn-wishlist.active { color: #dc3545 !important; }
+@keyframes wishlist-pulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+.wishlist-pulse { animation: wishlist-pulse 0.4s ease; }
+
+/* ── Price range filter ── */
+.price-range-inputs { min-width: 180px; }
+.price-range-inputs input[type="number"] { width: 75px; }
+
+/* ── Skeleton loading cards ── */
+.skeleton-card { background: #f5f5f5; border-radius: 8px; padding: 12px; }
+.skeleton-img  { height: 160px; background: #e0e0e0; border-radius: 6px; margin-bottom: 10px; animation: skeleton-pulse 1.2s infinite; }
+.skeleton-line { height: 14px; background: #e0e0e0; border-radius: 4px; margin-bottom: 8px; animation: skeleton-pulse 1.2s infinite; }
+.skeleton-line.short  { width: 60%; }
+.skeleton-line.xshort { width: 40%; }
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}

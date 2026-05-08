@@ -3,6 +3,7 @@ const cors             = require('cors');
 const productRoutes    = require('./routes/products');
 const authRoutes       = require('./routes/auth');
 const checkoutRoutes   = require('./routes/checkout');
+const orderRoutes      = require('./routes/orders');
 
 const app = express();
 
@@ -17,6 +18,9 @@ app.use('/api/auth', authRoutes);
 
 // Mount checkout route
 app.use('/api/checkout', checkoutRoutes);
+
+// Mount order history routes
+app.use('/api/orders', orderRoutes);
 
 // 404 handler for unknown routes
 app.use((req, res) => {

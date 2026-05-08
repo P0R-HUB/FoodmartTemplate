@@ -6,7 +6,8 @@ const CARD_REGEX  = /^\d{16}$/;
 // POST /api/checkout
 async function checkout(req, res) {
   try {
-    const { customerName, email, address, cardNumber, cartItems } = req.body;
+    const { customerName, address, cardNumber, cartItems } = req.body;
+    const email = req.user.email; // use authenticated email — never trust client
 
     // ── Step 1: Validate cart is not empty ───────────────────────────────────
     if (!Array.isArray(cartItems) || cartItems.length === 0) {
@@ -14,7 +15,7 @@ async function checkout(req, res) {
     }
 
     // ── Step 2: Validate required fields ────────────────────────────────────
-    if (!customerName || !email || !address || !cardNumber) {
+    if (!customerName || !address || !cardNumber) {
       return res.status(400).json({ success: false, message: 'All fields are required.' });
     }
 

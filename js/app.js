@@ -87,6 +87,25 @@
       FoodApp.products.setSearch('');
       FoodApp.products.render();
     });
+
+    /* Price range filter (debounce 400ms) */
+    var priceDebounceTimer;
+    $('#price-min, #price-max').on('input', function() {
+      clearTimeout(priceDebounceTimer);
+      priceDebounceTimer = setTimeout(function() {
+        FoodApp.products.setMinPrice($('#price-min').val());
+        FoodApp.products.setMaxPrice($('#price-max').val());
+        FoodApp.products.render();
+      }, 400);
+    });
+
+    /* Clear price filter */
+    $('#price-clear').on('click', function() {
+      $('#price-min, #price-max').val('');
+      FoodApp.products.setMinPrice(null);
+      FoodApp.products.setMaxPrice(null);
+      FoodApp.products.render();
+    });
   });
 
 })(jQuery);

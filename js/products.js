@@ -8,6 +8,8 @@
   var currentCategory = 'all';
   var currentSort     = '';
   var currentSearch   = '';
+  var currentMinPrice = null;
+  var currentMaxPrice = null;
 
   var PRODUCTS_JSON_PATH = 'http://localhost:3000/api/products';
 
@@ -182,6 +184,13 @@
       list = list.filter(function(p) { return p.category === currentCategory; });
     }
 
+    if (currentMinPrice !== null) {
+      list = list.filter(function(p) { return p.price >= currentMinPrice; });
+    }
+    if (currentMaxPrice !== null) {
+      list = list.filter(function(p) { return p.price <= currentMaxPrice; });
+    }
+
     if (currentSort === 'price_asc')  list.sort(function(a, b) { return a.price - b.price; });
     if (currentSort === 'price_desc') list.sort(function(a, b) { return b.price - a.price; });
     if (currentSort === 'rating')     list.sort(function(a, b) { return b.rating - a.rating; });
@@ -200,6 +209,7 @@
       : 'แสดง ' + list.length + ' จาก ' + allProducts.length + ' สินค้า';
     $('#product-count').text(label);
     initProductQty();
+    if (window.FoodApp && window.FoodApp.wishlist) window.FoodApp.wishlist.syncButtons();
   };
 
   /* ── syncCarouselPrices ── */
@@ -272,6 +282,8 @@
     setSort:         function(s)   { currentSort = s; },
     setSearch:       function(s)   { currentSearch = s; },
     getSearch:       function()    { return currentSearch; },
+    setMinPrice:     function(v)   { currentMinPrice = (v !== '' && v !== null && !isNaN(v)) ? parseFloat(v) : null; },
+    setMaxPrice:     function(v)   { currentMaxPrice = (v !== '' && v !== null && !isNaN(v)) ? parseFloat(v) : null; },
   };
 
 })(jQuery);

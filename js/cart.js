@@ -166,12 +166,23 @@
   var CHECKOUT_API = 'http://localhost:3000/api/checkout';
 
   var openCheckoutModal = function() {
-    // Show current total in modal header
+    // Block checkout if not logged in
+    var session = JSON.parse(localStorage.getItem('fm_user') || 'null');
+    if (!localStorage.getItem('fm_token') || !session) {
+      showToast('Please log in before checking out.', 'error');
+      var authModal = new bootstrap.Modal(document.getElementById('authModal'));
+      authModal.show();
+      return;
+    }
+
     var totalText = $('#cart-total-price').text();
     $('#checkout-modal-total').text(totalText);
 
-    // Reset form state
+    // Pre-fill name from session
+    $('#checkout-name').val(session.firstName || '');
+
     $('#checkout-form')[0].reset();
+    $('#checkout-name').val(session.firstName || '');
     $('#checkout-form .is-invalid').removeClass('is-invalid');
     $('#checkout-server-error').addClass('d-none').text('');
 
@@ -225,11 +236,12 @@
     $('#checkout-btn-spinner').removeClass('d-none');
     $('#checkout-server-error').addClass('d-none');
 
-    // ── POST to backend (Backend is the real gatekeeper) ────────────────────
+    // ── POST to backend with JWT token ──────────────────────────────────────
+    var token = localStorage.getItem('fm_token') || '';
     fetch(CHECKOUT_API, {
       method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ customerName: name, email: email, address: address, cardNumber: cardNumber, cartItems: cartItems }),
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body:    JSON.stringify({ customerName: name, address: address, cardNumber: cardNumber, cartItems: cartItems }),
     })
       .then(function(res) { return res.json(); })
       .then(function(data) {
