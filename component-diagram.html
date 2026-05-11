@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FoodMart – Component Diagram</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #0f1117;
+    color: #e2e8f0;
+    padding: 32px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: #f8fafc;
+    margin-bottom: 8px;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 32px;
+  }
+
+  /* ── Layout ────────────────────────────────── */
+  .diagram {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ── Machine boxes ─────────────────────────── */
+  .machine {
+    width: 100%;
+    border-radius: 12px;
+    padding: 24px 28px;
+    position: relative;
+  }
+  .machine-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .machine-label .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  /* Frontend machine */
+  .machine-frontend {
+    background: #0f2340;
+    border: 2px solid #1e4080;
+  }
+  .machine-frontend .machine-label { color: #60a5fa; }
+  .machine-frontend .machine-label .dot { background: #60a5fa; }
+
+  /* Backend machine */
+  .machine-backend {
+    background: #0f2820;
+    border: 2px solid #166534;
+  }
+  .machine-backend .machine-label { color: #4ade80; }
+  .machine-backend .machine-label .dot { background: #4ade80; }
+
+  /* ── Cut Line ──────────────────────────────── */
+  .cut-line-wrapper {
+    width: 100%;
+    max-width: 1100px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    position: relative;
+    z-index: 10;
+    margin: 0;
+  }
+  .cut-line {
+    flex: 1;
+    border-top: 3px dashed #ef4444;
+    position: relative;
+  }
+  .cut-label {
+    background: #ef4444;
+    color: white;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    padding: 4px 14px;
+    border-radius: 4px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    margin: 0 12px;
+  }
+  .cut-sublabel {
+    text-align: center;
+    font-size: 11px;
+    color: #ef4444;
+    letter-spacing: 1px;
+    background: #0f1117;
+    padding: 4px 0 8px 0;
+    width: 100%;
+    max-width: 1100px;
+  }
+
+  /* ── Layer rows ────────────────────────────── */
+  .layer {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .layer-title {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #94a3b8;
+    min-width: 90px;
+    padding-top: 10px;
+    flex-shrink: 0;
+  }
+
+  /* ── Component boxes ───────────────────────── */
+  .comp-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    flex: 1;
+  }
+  .comp {
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1.5px solid;
+    min-width: 140px;
+    position: relative;
+  }
+  .comp .comp-sub {
+    font-size: 10px;
+    font-weight: 400;
+    opacity: 0.7;
+    margin-top: 2px;
+  }
+
+  /* Component color themes */
+  .c-blue   { background:#1e3a5f; border-color:#3b82f6; color:#93c5fd; }
+  .c-purple { background:#2e1b4f; border-color:#8b5cf6; color:#c4b5fd; }
+  .c-teal   { background:#0f3535; border-color:#14b8a6; color:#5eead4; }
+  .c-amber  { background:#3d2600; border-color:#f59e0b; color:#fcd34d; }
+  .c-green  { background:#0f3020; border-color:#22c55e; color:#86efac; }
+  .c-rose   { background:#3d0f1a; border-color:#f43f5e; color:#fda4af; }
+  .c-slate  { background:#1e2535; border-color:#475569; color:#94a3b8; }
+  .c-sky    { background:#0c2d45; border-color:#0ea5e9; color:#7dd3fc; }
+
+  /* ── Connector arrows (simple vertical lines) ─ */
+  .connector {
+    display: flex;
+    justify-content: center;
+    margin: 4px 0;
+  }
+  .arrow-down {
+    width: 2px;
+    height: 24px;
+    background: #334155;
+    position: relative;
+    margin-left: 104px; /* align with start of components, past layer-title */
+  }
+  .arrow-down::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: -4px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid #334155;
+  }
+
+  /* ── Frontend component grid ──────────────── */
+  .fe-grid {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .fe-sub {
+    font-size: 10px;
+    color: #93c5fd;
+    margin-top: 2px;
+    opacity: 0.8;
+  }
+
+  /* ── DB box ────────────────────────────────── */
+  .db-box {
+    border: 2px solid #ca8a04;
+    background: #2a1f00;
+    border-radius: 10px;
+    padding: 10px 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    color: #fde68a;
+    font-weight: 600;
+  }
+  .db-icon {
+    font-size: 26px;
+    line-height: 1;
+  }
+  .db-detail { font-size: 11px; color: #fcd34d; opacity: 0.8; margin-top: 3px; }
+
+  /* HTTP arrow between machines */
+  .http-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #ef4444;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 0 0 0 104px; /* indent past layer label */
+  }
+
+  /* ── Legend ────────────────────────────────── */
+  .legend {
+    margin-top: 28px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 12px;
+    color: #64748b;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-swatch {
+    width: 14px; height: 14px;
+    border-radius: 3px;
+    border: 1.5px solid;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<h1>FoodMart — Component Diagram</h1>
+<p class="subtitle">Architecture split point shown by the dashed red CUT line</p>
+
+<div class="diagram">
+
+  <!-- ═══════════════ MACHINE 1: FRONTEND ═══════════════ -->
+  <div class="machine machine-frontend">
+    <div class="machine-label">
+      <span class="dot"></span>
+      Machine 1 &nbsp;·&nbsp; Frontend Static Server  (e.g. Nginx / GitHub Pages)
+    </div>
+
+    <!-- HTML + CSS -->
+    <div class="layer">
+      <div class="layer-title">Pages</div>
+      <div class="comp-row">
+        <div class="comp c-blue">
+          index.html
+          <div class="comp-sub">Single-page entry point</div>
+        </div>
+        <div class="comp c-slate">
+          style.css
+          <div class="comp-sub">Global styles (23 KB)</div>
+        </div>
+        <div class="comp c-slate">
+          css/ folder
+          <div class="comp-sub">Component stylesheets</div>
+        </div>
+        <div class="comp c-slate">
+          images/
+          <div class="comp-sub">Static assets</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JS Modules -->
+    <div class="layer">
+      <div class="layer-title">JS Modules</div>
+      <div class="comp-row">
+        <div class="comp c-sky">
+          app.js
+          <div class="comp-sub">Bootstrap / router</div>
+        </div>
+        <div class="comp c-sky">
+          auth.js
+          <div class="comp-sub">Login / register UI</div>
+        </div>
+        <div class="comp c-sky">
+          products.js
+          <div class="comp-sub">Product listing UI</div>
+        </div>
+        <div class="comp c-sky">
+          cart.js
+          <div class="comp-sub">Cart state &amp; UI</div>
+        </div>
+        <div class="comp c-sky">
+          wishlist.js
+          <div class="comp-sub">Wishlist state &amp; UI</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Storage -->
+    <div class="layer">
+      <div class="layer-title">Browser</div>
+      <div class="comp-row">
+        <div class="comp c-slate">
+          localStorage
+          <div class="comp-sub">cart, wishlist, JWT token</div>
+        </div>
+        <div class="comp c-slate">
+          SessionStorage
+          <div class="comp-sub">Temp UI state</div>
+        </div>
+        <div class="comp c-slate">
+          JSON/ folder
+          <div class="comp-sub">products.json (seed data)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end Machine 1 -->
+
+  <!-- ═══════════════ CUT LINE ═══════════════ -->
+  <div class="cut-line-wrapper">
+    <div class="cut-line"></div>
+    <div class="cut-label">✂ CUT — Split Here</div>
+    <div class="cut-line"></div>
+  </div>
+  <div class="cut-sublabel">
+    REST API over HTTP/HTTPS &nbsp;·&nbsp; JSON payloads &nbsp;·&nbsp; Bearer JWT in Authorization header
+  </div>
+
+  <!-- ═══════════════ MACHINE 2: BACKEND ═══════════════ -->
+  <div class="machine machine-backend">
+    <div class="machine-label">
+      <span class="dot"></span>
+      Machine 2 &nbsp;·&nbsp; Backend API Server  (Node.js / Express — port 3000)
+    </div>
+
+    <!-- Entry -->
+    <div class="layer">
+      <div class="layer-title">Entry Point</div>
+      <div class="comp-row">
+        <div class="comp c-green">
+          server.js
+          <div class="comp-sub">Starts HTTP server · calls db.init()</div>
+        </div>
+        <div class="comp c-green">
+          app.js
+          <div class="comp-sub">Express setup · CORS · body-parser · mounts routes</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector"><div class="arrow-down"></div></div>
+
+    <!-- Routes -->
+    <div class="layer">
+      <div class="layer-title">Routes</div>
+      <div class="comp-row">
+        <div class="comp c-purple">
+          routes/auth.js
+          <div class="comp-sub">POST /api/auth/login<br>POST /api/auth/register</div>
+        </div>
+        <div class="comp c-purple">
+          routes/products.js
+          <div class="comp-sub">GET /api/products<br>GET /api/products/:id<br>GET /api/products/categories</div>
+        </div>
+        <div class="comp c-purple">
+          routes/checkout.js
+          <div class="comp-sub">POST /api/checkout</div>
+        </div>
+        <div class="comp c-purple">
+          routes/orders.js
+          <div class="comp-sub">GET /api/orders<br>GET /api/orders/:id</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector"><div class="arrow-down"></div></div>
+
+    <!-- Middleware -->
+    <div class="layer">
+      <div class="layer-title">Middleware</div>
+      <div class="comp-row">
+        <div class="comp c-rose">
+          middleware/auth.js
+          <div class="comp-sub">requireAuth — verifies JWT Bearer token<br>Injects req.user = &#123; userId, email &#125;</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector"><div class="arrow-down"></div></div>
+
+    <!-- Controllers -->
+    <div class="layer">
+      <div class="layer-title">Controllers</div>
+      <div class="comp-row">
+        <div class="comp c-teal">
+          AuthController
+          <div class="comp-sub">login()<br>register()</div>
+        </div>
+        <div class="comp c-teal">
+          ProductController
+          <div class="comp-sub">getProducts()<br>getProductById()<br>getCategories()</div>
+        </div>
+        <div class="comp c-teal">
+          CheckoutController
+          <div class="comp-sub">checkout()<br>validates card / email</div>
+        </div>
+        <div class="comp c-teal">
+          OrderController
+          <div class="comp-sub">getOrders()<br>getOrderById()</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector"><div class="arrow-down"></div></div>
+
+    <!-- Services -->
+    <div class="layer">
+      <div class="layer-title">Services</div>
+      <div class="comp-row">
+        <div class="comp c-amber">
+          AuthService
+          <div class="comp-sub">findUserByEmail()<br>createUser()</div>
+        </div>
+        <div class="comp c-amber">
+          ProductService
+          <div class="comp-sub">getAllProducts()<br>getProductById()<br>getCategories()</div>
+        </div>
+        <div class="comp c-amber">
+          CheckoutService
+          <div class="comp-sub">createOrder()<br>recalculates total server-side</div>
+        </div>
+        <div class="comp c-amber">
+          OrderService
+          <div class="comp-sub">getOrdersByEmail()<br>getOrderById()</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector"><div class="arrow-down"></div></div>
+
+    <!-- Data Layer -->
+    <div class="layer">
+      <div class="layer-title">Data Layer</div>
+      <div class="comp-row">
+        <div class="comp c-slate" style="min-width:200px;">
+          database.js
+          <div class="comp-sub">better-sqlite3 · WAL mode · seeds on first run</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector"><div class="arrow-down"></div></div>
+
+    <!-- Database -->
+    <div class="layer">
+      <div class="layer-title">Database</div>
+      <div class="comp-row">
+        <div class="db-box">
+          <div class="db-icon">🗄</div>
+          <div>
+            <div>store.db &nbsp;(SQLite)</div>
+            <div class="db-detail">Tables: users · products · orders · order_items</div>
+          </div>
+        </div>
+        <div class="comp c-slate" style="min-width:160px;">
+          data/auth_user.json
+          <div class="comp-sub">Seed users</div>
+        </div>
+        <div class="comp c-slate" style="min-width:160px;">
+          data/products.json
+          <div class="comp-sub">Seed products</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- end Machine 2 -->
+
+</div><!-- end .diagram -->
+
+<!-- ── Legend ── -->
+<div class="legend">
+  <div class="legend-item">
+    <div class="legend-swatch" style="background:#1e3a5f;border-color:#3b82f6"></div> HTML / CSS
+  </div>
+  <div class="legend-item">
+    <div class="legend-swatch" style="background:#0c2d45;border-color:#0ea5e9"></div> Frontend JS Modules
+  </div>
+  <div class="legend-item">
+    <div class="legend-swatch" style="background:#2e1b4f;border-color:#8b5cf6"></div> Routes
+  </div>
+  <div class="legend-item">
+    <div class="legend-swatch" style="background:#3d0f1a;border-color:#f43f5e"></div> Middleware (JWT Guard)
+  </div>
+  <div class="legend-item">
+    <div class="legend-swatch" style="background:#0f3535;border-color:#14b8a6"></div> Controllers
+  </div>
+  <div class="legend-item">
+    <div class="legend-swatch" style="background:#3d2600;border-color:#f59e0b"></div> Services (Business Logic)
+  </div>
+  <div class="legend-item">
+    <div class="legend-swatch" style="background:#1e2535;border-color:#475569"></div> Data / Infrastructure
+  </div>
+  <div class="legend-item">
+    <div style="width:28px;height:3px;border-top:3px dashed #ef4444;margin-top:5px"></div> CUT line (split machines here)
+  </div>
+</div>
+
+</body>
+</html>
