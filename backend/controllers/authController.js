@@ -2,7 +2,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const authService = require('../services/authService');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'foodmart-secret-key';
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) throw new Error('JWT_SECRET is missing from .env');
 const SALT_ROUNDS = 10;
 
 // POST /api/auth/login

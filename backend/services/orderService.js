@@ -1,9 +1,9 @@
 const { db } = require('../database');
 
-function getOrdersByEmail(email) {
+function getOrdersByUserId(userId) {
   const orders = db.prepare(
-    'SELECT * FROM orders WHERE LOWER(email) = LOWER(?) ORDER BY createdAt DESC'
-  ).all(email);
+    'SELECT * FROM orders WHERE userId = ? ORDER BY createdAt DESC'
+  ).all(userId);
 
   return orders.map((order) => {
     const items = db.prepare('SELECT * FROM order_items WHERE orderId = ?').all(order.id);
@@ -11,14 +11,14 @@ function getOrdersByEmail(email) {
   });
 }
 
-function getOrderById(id, email) {
+function getOrderById(id, userId) {
   const order = db.prepare(
-    'SELECT * FROM orders WHERE id = ? AND LOWER(email) = LOWER(?)'
-  ).get(id, email);
+    'SELECT * FROM orders WHERE id = ? AND userId = ?'
+  ).get(id, userId);
   if (!order) return null;
 
   const items = db.prepare('SELECT * FROM order_items WHERE orderId = ?').all(order.id);
   return { ...order, items };
 }
 
-module.exports = { getOrdersByEmail, getOrderById };
+module.exports = { getOrdersByUserId, getOrderById };

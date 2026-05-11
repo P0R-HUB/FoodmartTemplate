@@ -8,7 +8,7 @@ const orderRoutes      = require('./routes/orders');
 const app = express();
 
 app.use(cors());
-app.use(express.json()); // Body parser — must be before all routes
+app.use(express.json({ limit: '10kb' })); // Body parser — must be before all routes
 
 // Mount product routes
 app.use('/api/products', productRoutes);
@@ -29,7 +29,9 @@ app.use((req, res) => {
 
 // Global error handler
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  if (process.env.NODE_ENV !== 'production') {
+    console.error(err.stack);
+  }
   res.status(500).json({ success: false, message: 'Internal server error.' });
 });
 

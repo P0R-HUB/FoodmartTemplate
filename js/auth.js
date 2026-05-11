@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  const API = 'http://localhost:3000/api/auth';
+  const API = (window.API_BASE || '') + '/api/auth';
 
   /* ── Password validation rules (ต้อง match กับ backend) ── */
   function validatePassword(password) {

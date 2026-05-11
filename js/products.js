@@ -11,7 +11,7 @@
   var currentMinPrice = null;
   var currentMaxPrice = null;
 
-  var PRODUCTS_JSON_PATH = 'http://localhost:3000/api/products';
+  var PRODUCTS_JSON_PATH = (window.API_BASE || '') + '/api/products';
 
   /* ── Swiper ── */
   var productSwiperInstances = [];

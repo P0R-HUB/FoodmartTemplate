@@ -163,7 +163,7 @@
   };
 
   /* ── Checkout ── */
-  var CHECKOUT_API = 'http://localhost:3000/api/checkout';
+  var CHECKOUT_API = (window.API_BASE || '') + '/api/checkout';
 
   var openCheckoutModal = function() {
     // Block checkout if not logged in

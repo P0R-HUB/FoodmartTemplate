@@ -35,22 +35,25 @@ function init() {
 
     CREATE TABLE IF NOT EXISTS orders (
       id           INTEGER PRIMARY KEY AUTOINCREMENT,
+      userId       INTEGER NOT NULL,
       customerName TEXT    NOT NULL,
       email        TEXT    NOT NULL,
       address      TEXT    NOT NULL,
       totalPrice   REAL    NOT NULL,
       status       TEXT    NOT NULL DEFAULT 'confirmed',
-      createdAt    TEXT    NOT NULL
+      createdAt    TEXT    NOT NULL,
+      FOREIGN KEY (userId) REFERENCES users(id)
     );
 
     CREATE TABLE IF NOT EXISTS order_items (
       id          INTEGER PRIMARY KEY AUTOINCREMENT,
       orderId     INTEGER NOT NULL,
-      productId   TEXT    NOT NULL,
+      productId   INTEGER NOT NULL,
       productName TEXT    NOT NULL,
       qty         INTEGER NOT NULL,
       price       REAL    NOT NULL,
-      FOREIGN KEY (orderId) REFERENCES orders(id)
+      FOREIGN KEY (orderId)   REFERENCES orders(id),
+      FOREIGN KEY (productId) REFERENCES products(id)
     );
   `);
 

@@ -4,7 +4,7 @@ function sanitize(value) {
   return String(value).replace(/<[^>]*>/g, '').trim();
 }
 
-function createOrder({ customerName, email, address, cartItems }) {
+function createOrder({ userId, customerName, email, address, cartItems }) {
   // Recalculate total on server — never trust client-side price
   let serverTotal    = 0;
   const verifiedItems = cartItems.map((item) => {
@@ -21,7 +21,7 @@ function createOrder({ customerName, email, address, cartItems }) {
 
   // ── Atomic transaction: insert order + all items together ─────────────────
   const insertOrder = db.prepare(
-    'INSERT INTO orders (customerName, email, address, totalPrice, status, createdAt) VALUES (?, ?, ?, ?, ?, ?)'
+    'INSERT INTO orders (userId, customerName, email, address, totalPrice, status, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?)'
   );
   const insertItem = db.prepare(
     'INSERT INTO order_items (orderId, productId, productName, qty, price) VALUES (?, ?, ?, ?, ?)'
@@ -29,6 +29,7 @@ function createOrder({ customerName, email, address, cartItems }) {
 
   const placeOrder = db.transaction(() => {
     const result = insertOrder.run(
+      userId,
       sanitize(customerName),
       sanitize(email),
       sanitize(address),

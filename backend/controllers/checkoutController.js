@@ -7,7 +7,7 @@ const CARD_REGEX  = /^\d{16}$/;
 async function checkout(req, res) {
   try {
     const { customerName, address, cardNumber, cartItems } = req.body;
-    const email = req.user.email; // use authenticated email — never trust client
+    const { userId, email } = req.user; // use authenticated identity — never trust client
 
     // ── Step 1: Validate cart is not empty ───────────────────────────────────
     if (!Array.isArray(cartItems) || cartItems.length === 0) {
@@ -31,7 +31,7 @@ async function checkout(req, res) {
     }
 
     // ── Step 5: Create order (server recalculates price + saves) ────────────
-    const order = checkoutService.createOrder({ customerName, email, address, cartItems });
+    const order = checkoutService.createOrder({ userId, customerName, email, address, cartItems });
 
     // ── Step 6: Respond with success (frontend will clear cart) ─────────────
     res.status(201).json({
