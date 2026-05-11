@@ -175,10 +175,31 @@
             </div>
 
             <ul class="d-flex justify-content-end list-unstyled m-0">
-              <li>
+              <li class="d-flex align-items-center">
+                <!-- Logged OUT: icon → opens auth modal -->
                 <a href="#" id="user-nav-btn" class="rounded-circle bg-light p-2 mx-1" data-bs-toggle="modal" data-bs-target="#authModal" title="Login / Register">
                   <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#user"></use></svg>
                 </a>
+                <!-- Logged IN: name pill → dropdown -->
+                <div id="user-nav-loggedin" class="d-none">
+                  <div class="dropdown">
+                    <button class="btn btn-dark btn-sm rounded-pill px-3 py-2 d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><use xlink:href="#user"></use></svg>
+                      <span id="user-nav-name" class="fw-semibold text-white" style="max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end mt-2" style="min-width:220px;background:#fff;border:1px solid #ddd;box-shadow:0 4px 16px rgba(0,0,0,.12)">
+                      <li class="px-3 pt-2 pb-1">
+                        <div style="font-size:11px;color:#888">Logged in as</div>
+                        <div class="fw-bold" id="user-dropdown-name" style="color:#111;font-size:15px"></div>
+                        <div id="user-dropdown-email" style="color:#555;font-size:12px;word-break:break-all"></div>
+                      </li>
+                      <li><hr class="dropdown-divider my-1"></li>
+                      <li>
+                        <button class="dropdown-item fw-semibold" id="logout-btn-nav" style="color:#dc3545;background:transparent">Logout</button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </li>
               <li class="position-relative">
                 <a href="#" id="wishlist-nav-btn" class="rounded-circle bg-light p-2 mx-1" title="My Wishlist">
@@ -1869,6 +1890,21 @@
             <button type="button" class="btn-close ms-2" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body pt-3">
+
+            <!-- ── Logged-IN panel (shown when session exists) ── -->
+            <div id="auth-loggedin-panel" class="d-none text-center py-2">
+              <div class="mb-2" style="font-size:3.2rem">👤</div>
+              <h5 class="fw-bold mb-1" id="auth-modal-name" style="color:#111"></h5>
+              <p class="mb-3" id="auth-modal-email" style="color:#555;font-size:13px"></p>
+              <div class="d-flex align-items-center justify-content-center gap-2 rounded py-2 mb-4" style="background:#d1e7dd;color:#0a3622;font-weight:600">
+                <span>✓</span>
+                <span>You're logged in!</span>
+              </div>
+              <button id="logout-btn" class="btn btn-danger w-100 fw-semibold">Logout</button>
+            </div>
+
+            <!-- ── Login / Register forms (shown when logged out) ── -->
+            <div id="auth-forms-panel">
             <div class="tab-content">
 
               <!-- Login Tab -->
@@ -1887,9 +1923,6 @@
                     <button type="submit" id="login-btn" class="btn btn-primary w-100" data-label="Login">Login</button>
                   </div>
                 </form>
-                <div class="text-center mt-3">
-                  <button id="logout-btn" class="btn btn-outline-secondary btn-sm">Logout</button>
-                </div>
               </div>
 
               <!-- Register Tab -->
@@ -1916,6 +1949,7 @@
               </div>
 
             </div>
+            </div><!-- /auth-forms-panel -->
           </div>
         </div>
       </div>
@@ -1964,7 +1998,7 @@
 
               <div class="mb-3">
                 <label class="form-label" for="checkout-card">Card Number</label>
-                <input type="text" class="form-control" id="checkout-card" placeholder="1234567890123456" maxlength="16" required>
+                <input type="text" class="form-control" id="checkout-card" placeholder="1234 5678 9012 3456" maxlength="19" required>
                 <div class="invalid-feedback" id="checkout-card-error">Card number must be exactly 16 digits.</div>
               </div>
 

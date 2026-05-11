@@ -45,20 +45,45 @@
     localStorage.removeItem('fm_user');
   }
 
-  /* ── Update navbar user button ── */
+  /* ── Update navbar + modal to reflect auth state ── */
   function updateNavbar() {
-    var session = getSession();
-    var btn = document.getElementById('user-nav-btn');
-    if (!btn) return;
+    var session        = getSession();
+    var loggedOutBtn   = document.getElementById('user-nav-btn');
+    var loggedInDiv    = document.getElementById('user-nav-loggedin');
+    var loggedinPanel  = document.getElementById('auth-loggedin-panel');
+    var formsPanel     = document.getElementById('auth-forms-panel');
+    var authTabs       = document.getElementById('authTabs');
 
     if (session) {
-      btn.title = 'Logged in as ' + session.user.firstName;
-      btn.classList.add('bg-primary', 'text-white');
-      btn.classList.remove('bg-light');
+      /* ── Navbar: hide icon, show name dropdown ── */
+      if (loggedOutBtn) loggedOutBtn.classList.add('d-none');
+      if (loggedInDiv)  {
+        loggedInDiv.classList.remove('d-none');
+        var navName  = document.getElementById('user-nav-name');
+        var ddName   = document.getElementById('user-dropdown-name');
+        var ddEmail  = document.getElementById('user-dropdown-email');
+        if (navName)  navName.textContent  = session.user.firstName;
+        if (ddName)   ddName.textContent   = session.user.firstName;
+        if (ddEmail)  ddEmail.textContent  = session.user.email;
+      }
+      /* ── Modal: show logged-in panel, hide login/register forms ── */
+      if (loggedinPanel) {
+        loggedinPanel.classList.remove('d-none');
+        var mName  = document.getElementById('auth-modal-name');
+        var mEmail = document.getElementById('auth-modal-email');
+        if (mName)  mName.textContent  = session.user.firstName;
+        if (mEmail) mEmail.textContent = session.user.email;
+      }
+      if (formsPanel) formsPanel.classList.add('d-none');
+      if (authTabs)   authTabs.classList.add('d-none');
     } else {
-      btn.title = 'Login / Register';
-      btn.classList.remove('bg-primary', 'text-white');
-      btn.classList.add('bg-light');
+      /* ── Navbar: show login icon, hide dropdown ── */
+      if (loggedOutBtn) loggedOutBtn.classList.remove('d-none');
+      if (loggedInDiv)  loggedInDiv.classList.add('d-none');
+      /* ── Modal: show login/register forms, hide logged-in panel ── */
+      if (loggedinPanel) loggedinPanel.classList.add('d-none');
+      if (formsPanel)    formsPanel.classList.remove('d-none');
+      if (authTabs)      authTabs.classList.remove('d-none');
     }
   }
 
@@ -143,7 +168,12 @@
   function handleLogout() {
     clearSession();
     updateNavbar();
-    showToast('Logged out.', 'info');
+    var modal = document.getElementById('authModal');
+    if (modal) {
+      var bsModal = bootstrap.Modal.getInstance(modal);
+      if (bsModal) bsModal.hide();
+    }
+    showToast('You have been logged out.', 'info');
   }
 
   /* ── Real-time password strength feedback ── */
@@ -188,13 +218,15 @@
     updateNavbar();
     initPasswordStrength();
 
-    var loginFormEl = document.getElementById('login-form-el');
-    var regFormEl   = document.getElementById('reg-form-el');
-    var logoutBtn   = document.getElementById('logout-btn');
+    var loginFormEl  = document.getElementById('login-form-el');
+    var regFormEl    = document.getElementById('reg-form-el');
+    var logoutBtn    = document.getElementById('logout-btn');
+    var logoutBtnNav = document.getElementById('logout-btn-nav');
 
-    if (loginFormEl) loginFormEl.addEventListener('submit', handleLogin);
-    if (regFormEl)   regFormEl.addEventListener('submit', handleRegister);
-    if (logoutBtn)   logoutBtn.addEventListener('click', handleLogout);
+    if (loginFormEl)  loginFormEl.addEventListener('submit', handleLogin);
+    if (regFormEl)    regFormEl.addEventListener('submit', handleRegister);
+    if (logoutBtn)    logoutBtn.addEventListener('click', handleLogout);
+    if (logoutBtnNav) logoutBtnNav.addEventListener('click', handleLogout);
   });
 
 })();
